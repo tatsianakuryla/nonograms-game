@@ -1,0 +1,194 @@
+:root {
+    --white: #ffffff;
+    --blue-cardinal-flower: #2830c3;
+    --st-patrick-s-blue: #242582;
+    --cobalite: #9c9cff;
+    --when-blue-met-red: #563d67;
+    --fuchsia-felicity: #f64c71;
+    --parakeet-green: #14a76c;
+    --hidden-mask: #99728d;
+}
+
+html {
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+body {
+    height: 100vh;
+    background-color: var(--blue-cardinal-flower);
+}
+
+*,
+::after,
+::before {
+    box-sizing: inherit;
+}
+
+img {
+    max-width: 100%;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+p,
+h1,
+h4 {
+    margin: 0;
+}
+
+.flex {
+    display: flex;
+}
+
+.main {
+    width: 100%;
+    height: 100%;
+}
+
+.game {
+    justify-content: center;
+    padding: 20px 0;
+    width: 100%;
+    height: 100%;
+}
+
+.game__container {
+    justify-content: space-between;
+    gap: 10px;
+    padding: 5px 40px;
+    border: 3px solid var(--cobalite);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 980px;
+    color: var(--white);
+    box-shadow: 0px 0px 47px 13px rgba(236, 244, 250, 0.2);
+}
+
+.game__heading {
+    align-self: center;
+    font-size: 3rem;
+}
+
+.game__settings {
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 10px;
+    width: 70%;
+}
+
+.game__levels-choice {
+    justify-content: space-around;
+    gap: 5px;
+}
+
+.game__level-btn {
+    height: 0.01px;
+    width: 0.01px;
+}
+
+.game__level-label {
+    display: inline-block;
+    padding: 10px 40px;
+    border: 3px solid var(--cobalite);
+    border-radius: 12px;
+    font-size: 1.5rem;
+    background-color: var(--st-patrick-s-blue);
+    cursor: pointer;
+}
+
+.game__images-list {
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+    text-align: center;
+}
+
+.game__image-item {
+   padding: 10px;
+   border: 3px solid var(--fuchsia-felicity);
+   border-radius: 12px;
+   font-size: 1.2rem;
+   font-weight: 500;
+   background-color: var(--fuchsia-felicity);
+   cursor: pointer;
+}
+
+.game__manage-btns-wrapper {
+    flex-direction: column;
+    align-self: flex-start;
+    gap: 5px;
+    width: 100%;
+}
+
+.game__btn-manage {
+    padding: 15px 40px;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--white);
+    border: 3px solid var(--fuchsia-felicity);
+    border-radius: 12px;
+    width: 60%;
+    background-color: var(--parakeet-green);
+    cursor: pointer;
+}
+
+.game__aside {
+    flex-direction: column;
+    align-self: flex-end;
+    flex-grow: 1;
+    gap: 10px;
+    padding-top: 1rem;
+    width: calc(30% - 20px);
+}
+
+.game__records-header {
+    font-size: 1.4rem;
+    text-align: center;
+}
+
+.game__mode-btns-wrapper {
+    align-self: flex-end;
+    font-size: 0;
+    line-height: 0;
+}
+
+.game__records-list {
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+.game__record-item {
+    gap: 5px;
+    padding: 10px 10px 10px 20px; 
+    border: 2px solid var(--cobalite); 
+    border-radius: 12px;
+    font-size: 1rem;
+}
+
+.game__btn-mode {
+    padding: 0;
+    border: none;
+    width: 60px;
+    height: 40px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.game__btn-mode_dark {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    color: var(--white);
+    background-color: var(--when-blue-met-red);
+}
+
+.game__btn-mode_light {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
