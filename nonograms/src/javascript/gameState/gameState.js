@@ -234,7 +234,13 @@ export const LEVELS = new Map([
 export const records = [
   {
     name: 'Star',
-    level: 'EASY',
+    level: 'easy',
     completeTime: 1000,
   },
 ];
+
+export const gameState = {
+  level: 'easy',
+  matrix: [],
+
+}

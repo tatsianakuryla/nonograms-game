@@ -3,10 +3,12 @@
     --blue-cardinal-flower: #2830c3;
     --st-patrick-s-blue: #242582;
     --cobalite: #9c9cff;
+    --jade-glass: #00ced1;
     --when-blue-met-red: #563d67;
     --fuchsia-felicity: #f64c71;
     --parakeet-green: #14a76c;
     --hidden-mask: #99728d;
+    --silver: #c0c0c0;
 }
 
 html {
@@ -99,6 +101,17 @@ h4 {
     font-size: 1.5rem;
     background-color: var(--st-patrick-s-blue);
     cursor: pointer;
+    transition: transform 0.2s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.game__level-btn:checked + .game__level-label {
+    background-color: var(--cobalite);
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.game__level-label:hover {
+    transform: scale(1.1);
 }
 
 .game__images-list {
@@ -133,8 +146,16 @@ h4 {
     border: 3px solid var(--fuchsia-felicity);
     border-radius: 12px;
     width: 60%;
-    background-color: var(--parakeet-green);
+    background-color: var(--jade-glass);
     cursor: pointer;
+}
+
+.game__btn-manage:disabled {
+    border-color: var(--silver);
+    background-color: var(--silver);
+    opacity: 0.8;
+    cursor: auto;
+    transform: scale(0.98);
 }
 
 .game__aside {
@@ -151,12 +172,6 @@ h4 {
     text-align: center;
 }
 
-.game__mode-btns-wrapper {
-    align-self: flex-end;
-    font-size: 0;
-    line-height: 0;
-}
-
 .game__records-list {
     flex-direction: column;
     gap: 10px;
@@ -171,24 +186,47 @@ h4 {
     font-size: 1rem;
 }
 
-.game__btn-mode {
-    padding: 0;
-    border: none;
-    width: 60px;
-    height: 40px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    cursor: pointer;
+.game__mode-btns-wrapper {
+    align-self: flex-end;
 }
 
-.game__btn-mode_dark {
+.game__mode-wrapper_dark {
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
     color: var(--white);
     background-color: var(--when-blue-met-red);
 }
 
-.game__btn-mode_light {
+.game__mode-wrapper_light {
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
+    background-color: var(--white);
+    color: var(--when-blue-met-red);
+}
+
+.game__mode-label {
+    padding: 0;
+    padding-top: 6px;
+    border: none;
+    width: 60px;
+    height: 40px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.game__mode-btn {
+    height: 0.1px;
+    width: 0.1px;
+}
+
+.game__mode-btn:checked + .game__mode-label {
+    transform: scale(0.8);
+    opacity: 0.9;
+}
+
+.game__mode-label:hover {
+    transform: scale(1.05);
 }

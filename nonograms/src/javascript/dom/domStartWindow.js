@@ -98,13 +98,28 @@ function getModeBtnsWrapper() {
 }
 
 function getModeButtons(btnMode) {
-  const btn = createElementWithClassId("button", [
-    "game__btn-mode",
-    `game__btn-mode_${btnMode}`,
-  ]);
-  //Remove
-  btn.textContent = textToCapitalCase(btnMode) + ' mode';
-  return btn;
+
+    const modeBtn = createElementWithClassId(
+      "input",
+      ["game__mode-btn", `game__mode-btn_${btnMode}`],
+      btnMode,
+    );
+    modeBtn.setAttribute("name", "game-mode");
+    modeBtn.setAttribute("type", "radio");
+    if (btnMode === "dark") modeBtn.setAttribute("checked", "true");
+  
+    const modeLabel = createElementWithClassId(
+      "label",
+      ["game__mode-label", `game__mode-label_${btnMode}`],
+      `game__mode-label_${btnMode}`,
+    );
+    modeLabel.setAttribute("for", btnMode);
+    modeLabel.textContent = textToCapitalCase(btnMode) + ' mode';
+  
+    const modeWrapper = createElementWithClassId("div", ["game__mode-wrapper", `game__mode-wrapper_${btnMode}`, 'flex']);
+    modeWrapper.append(modeBtn, modeLabel);
+
+  return modeWrapper;
 }
 
 function getGameSettingsSection() {
@@ -130,12 +145,12 @@ function getLevelChoiceSection() {
   ]);
 
   Array.from(LEVELS.keys()).forEach((level) => {
-    levelChoiceSection.append(getLevelChoiceBtn(level));
+    levelChoiceSection.append(getRadioBtn(level));
   });
   return levelChoiceSection;
 }
 
-function getLevelChoiceBtn(level) {
+function getRadioBtn(level) {
   const levelBtn = createElementWithClassId(
     "input",
     ["game__level-btn", `game__level-btn_${level}`],
@@ -159,7 +174,7 @@ function getLevelChoiceBtn(level) {
   return levelWrapper;
 }
 
-function renderGameImages(level = "easy") {
+export function renderGameImages(level = "easy") {
   const gameImagesList = document.getElementById("game__images-list");
   gameImagesList.innerHTML = "";
   LEVELS.get(level)
@@ -195,8 +210,10 @@ function getManageButtons(btnTask) {
     "game__btn-manage",
     `game__btn-manage_${btnTask}`,
   ]);
-  if (MANAGE_BUTTON_TEXTS[btnTask]) {
-    btn.textContent = MANAGE_BUTTON_TEXTS[btnTask];
+  btn.textContent = MANAGE_BUTTON_TEXTS[btnTask];
+  if (btnTask === 'continue') {
+    btn.disabled = 'true';
   }
+
   return btn;
 }
