@@ -57,7 +57,7 @@ export const easyMatrixSet = new Map([
 
 export const mediumMatrixSet = new Map([
   [
-    'happy man',
+    'happy-man',
     [
       [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
       [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
@@ -73,7 +73,7 @@ export const mediumMatrixSet = new Map([
   ],
 
   [
-    'concert hall',
+    'concert-hall',
     [
       [1, 1, 1, 1, 0, 0, 1, 1, 1, 1],
       [1, 1, 1, 1, 0, 0, 1, 1, 1, 1],
@@ -121,7 +121,7 @@ export const mediumMatrixSet = new Map([
   ],
 
   [
-    'spruce family',
+    'spruce-family',
     [
       [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
       [0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
@@ -138,7 +138,7 @@ export const mediumMatrixSet = new Map([
 ]);
 
 export const hardMatrixSet = new Map([
-  ['santa with presents', [
+  ['santa-with-presents', [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1],
     [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1],
@@ -155,7 +155,7 @@ export const hardMatrixSet = new Map([
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0],
     [1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0],
   ] ],
-  ['old woman in farmacy', [
+  ['old-woman-in-farmacy', [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1],
     [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
     [1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
@@ -172,7 +172,7 @@ export const hardMatrixSet = new Map([
     [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0],
     [1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0],
   ] ],
-  ['house in the sun', [
+  ['house-in-the-sun', [
     [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
     [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
@@ -189,7 +189,7 @@ export const hardMatrixSet = new Map([
     [1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   ] ],
-  ['new year hat', [
+  ['new-year-hat', [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0],
@@ -232,15 +232,47 @@ export const LEVELS = new Map([
 ]);
 
 export const records = [
-  {
-    name: 'Star',
-    level: 'easy',
-    completeTime: 1000,
-  },
+  // {
+  //   name: 'Star',
+  //   level: 'easy',
+  //   completeTime: 1000,
+  // },
 ];
 
 export const gameState = {
   level: 'easy',
-  matrix: [],
+  matrixSet: LEVELS.get('easy'),
+  matrix: Array.from(easyMatrixSet.values())[0],
+  currentUserMatrix: [],
+  setLevel(newLevel) {
+    this.level = newLevel;
+    this.matrixSet = LEVELS.get(newLevel);
+    this.matrix = Array.from(this.matrixSet.values())[0];
+    this.resetUserMatrix();
+  },
+
+  setMatrix(key) {
+    this.matrix = this.matrixSet.get(key);
+    this.resetUserMatrix();
+  },
+
+  setRandomGame() {
+    const randomLevelIndex = Math.floor(Math.random() * Array.from(LEVELS.keys()).length);
+    this.matrixSet = LEVELS.get(Array.from(LEVELS.keys())[randomLevelIndex]);
+    const randomMatrixIndex = Math.floor(Math.random() * Array.from(this.matrixSet.keys()).length);
+    this.matrix = Array.from(this.matrixSet.values())[randomMatrixIndex];
+    this.resetUserMatrix();
+  },
+
+  resetUserMatrix() {
+    this.currentUserMatrix = this.matrix.map(row => row.map(cell => cell === 1 ? 0 : cell)); 
+  },
+
+  isGameWon() {
+    return JSON.stringify(this.matrix === this.currentUserMatrix);
+  },
+
+
+
 
 }

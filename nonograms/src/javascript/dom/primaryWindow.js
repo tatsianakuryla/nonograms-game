@@ -7,12 +7,12 @@ import { LEVELS, records } from "../gameState/gameState.js";
 const MANAGE_BUTTONS_TASKS = ["new", "random", "continue"];
 const MODE_BUTTONS_TASKS = ["light", "dark"];
 const MANAGE_BUTTON_TEXTS = {
-  new: "Start new game",
-  random: "Start random game",
+  new: "New game",
+  random: "Random game",
   continue: "Continue last game",
 };
 
-export function renderStartWindow() {
+export function renderPrimarytWindow() {
   document.body.append(getMain());
   renderGameImages();
   renderGameRecordsList();
@@ -31,20 +31,32 @@ function getGameSection() {
 }
 
 function getGameContainer() {
-  const gameContainer = createElementWithClassId("div", [
-    "game__container",
-    "flex",
-  ]);
-  gameContainer.append(getGameSettingsSection(), getGameAside());
+  const gameContainer = createElementWithClassId(
+    "div",
+    ["game__container", "flex"],
+    "game__container"
+  );
+  const heading = createElementWithClassId(
+    "h1",
+    ["game__heading"],
+    "game__heading"
+  );
+  heading.textContent = "Nonograms";
+  const wrapper = createElementWithClassId('div', ['game__container-wrapper', 'flex'], 'game__container-wrapper');
+  wrapper.append(getGameSettingsSection(), getGameAside());
+  gameContainer.append(heading, getModeBtnsWrapper(), wrapper);
   return gameContainer;
 }
 
 function getGameAside() {
-  const gameAside = createElementWithClassId("div", ["game__aside", "flex"]);
-  gameAside.append(getGameRecordsList(), getModeBtnsWrapper());
-  const recordHeader = createElementWithClassId("h4", ["game__records-header"]);
+  const gameAside = createElementWithClassId("div", ["game__aside", "flex"], 'game__aside');
+  const recordHeader = createElementWithClassId(
+    "h4",
+    ["game__records-header"],
+    "game__records-header"
+  );
   recordHeader.textContent = "Best results:";
-  gameAside.prepend(recordHeader);
+  gameAside.append(recordHeader, getGameRecordsList());
   return gameAside;
 }
 
@@ -69,7 +81,10 @@ function renderGameRecordsList() {
 }
 
 function getRecordItem({ name, level, completeTime }) {
-  const recordItem = createElementWithClassId("li", ["game__record-item", 'flex']);
+  const recordItem = createElementWithClassId("li", [
+    "game__record-item",
+    "flex",
+  ]);
   const recordName = createElementWithClassId("p", ["game__record-name"]);
   recordName.textContent = textToCapitalCase(name);
 
@@ -89,7 +104,7 @@ function getRecordItem({ name, level, completeTime }) {
 function getModeBtnsWrapper() {
   const modeBtnsWrapper = createElementWithClassId("div", [
     "game__mode-btns-wrapper",
-    'flex',
+    "flex",
   ]);
   MODE_BUTTONS_TASKS.forEach((btnTask) => {
     modeBtnsWrapper.append(getModeButtons(btnTask));
@@ -98,39 +113,40 @@ function getModeBtnsWrapper() {
 }
 
 function getModeButtons(btnMode) {
+  const modeBtn = createElementWithClassId(
+    "input",
+    ["game__mode-btn", `game__mode-btn_${btnMode}`],
+    btnMode
+  );
+  modeBtn.setAttribute("name", "game-mode");
+  modeBtn.setAttribute("type", "radio");
+  if (btnMode === "light") modeBtn.setAttribute("checked", "true");
 
-    const modeBtn = createElementWithClassId(
-      "input",
-      ["game__mode-btn", `game__mode-btn_${btnMode}`],
-      btnMode,
-    );
-    modeBtn.setAttribute("name", "game-mode");
-    modeBtn.setAttribute("type", "radio");
-    if (btnMode === "dark") modeBtn.setAttribute("checked", "true");
-  
-    const modeLabel = createElementWithClassId(
-      "label",
-      ["game__mode-label", `game__mode-label_${btnMode}`],
-      `game__mode-label_${btnMode}`,
-    );
-    modeLabel.setAttribute("for", btnMode);
-    modeLabel.textContent = textToCapitalCase(btnMode) + ' mode';
-  
-    const modeWrapper = createElementWithClassId("div", ["game__mode-wrapper", `game__mode-wrapper_${btnMode}`, 'flex']);
-    modeWrapper.append(modeBtn, modeLabel);
+  const modeLabel = createElementWithClassId(
+    "label",
+    ["game__mode-label", `game__mode-label_${btnMode}`],
+    `game__mode-label_${btnMode}`
+  );
+  modeLabel.setAttribute("for", btnMode);
+  modeLabel.textContent = textToCapitalCase(btnMode) + " mode";
+
+  const modeWrapper = createElementWithClassId("div", [
+    "game__mode-wrapper",
+    `game__mode-wrapper_${btnMode}`,
+    "flex",
+  ]);
+  modeWrapper.append(modeBtn, modeLabel);
 
   return modeWrapper;
 }
 
 function getGameSettingsSection() {
-  const gameSettingsSection = createElementWithClassId("div", [
-    "game__settings",
-    "flex",
-  ]);
-  const heading = createElementWithClassId("h1", ["game__heading"]);
-  heading.textContent = "Nonograms";
+  const gameSettingsSection = createElementWithClassId(
+    "div",
+    ["game__settings", "flex"],
+    "game__settings"
+  );
   gameSettingsSection.append(
-    heading,
     getLevelChoiceSection(),
     getGameImagesList(),
     getManageBtnsWrapper()
@@ -139,10 +155,11 @@ function getGameSettingsSection() {
 }
 
 function getLevelChoiceSection() {
-  const levelChoiceSection = createElementWithClassId("div", [
-    "game__levels-choice",
-    "flex",
-  ]);
+  const levelChoiceSection = createElementWithClassId(
+    "div",
+    ["game__levels-choice", "flex"],
+    "game__levels-choice"
+  );
 
   Array.from(LEVELS.keys()).forEach((level) => {
     levelChoiceSection.append(getRadioBtn(level));
@@ -166,7 +183,7 @@ function getRadioBtn(level) {
     `game__level-label_${level}`
   );
   levelLabel.setAttribute("for", level);
-  levelLabel.textContent = textToCapitalCase(level);
+  levelLabel.textContent = textToCapitalCase(level) + " level";
 
   const levelWrapper = createElementWithClassId("div", ["game__level-wrapper"]);
   levelWrapper.append(levelBtn, levelLabel);
@@ -180,10 +197,37 @@ export function renderGameImages(level = "easy") {
   LEVELS.get(level)
     .keys()
     .forEach((imageName) => {
-      const imageItem = createElementWithClassId("li", ["game__image-item"]);
-      imageItem.textContent = textToCapitalCase(imageName);
+      const imageNameConsice = imageName.toLowerCase();
+      const imageItem = createElementWithClassId("li", [
+        "game__image-item",
+        "flex",
+      ]);
+
+      const imageRadio = createElementWithClassId(
+        "input",
+        ["game__image-btn", `game__mode-btn_${imageNameConsice}`],
+        imageNameConsice
+      );
+      imageRadio.setAttribute("name", "game-image");
+      imageRadio.setAttribute("type", "radio");
+
+      const imageLabel = createElementWithClassId(
+        "label",
+        ["game__image-label", `game__image-label_${imageNameConsice}`],
+        `game__image-label_${imageNameConsice}`
+      );
+      imageLabel.setAttribute("for", imageNameConsice);
+      imageLabel.textContent = textToCapitalCase(
+        imageName.replaceAll("-", " ")
+      );
+
+      imageItem.append(imageRadio, imageLabel);
+
       gameImagesList.append(imageItem);
     });
+  document
+    .getElementsByClassName("game__image-btn")[0]
+    .setAttribute("checked", "true");
 }
 
 function getGameImagesList() {
@@ -195,10 +239,11 @@ function getGameImagesList() {
 }
 
 function getManageBtnsWrapper() {
-  const manageBtnsWrapper = createElementWithClassId("div", [
-    "game__manage-btns-wrapper",
-    "flex",
-  ]);
+  const manageBtnsWrapper = createElementWithClassId(
+    "div",
+    ["game__manage-btns-wrapper", "flex"],
+    "game__manage-btns-wrapper"
+  );
   MANAGE_BUTTONS_TASKS.forEach((btnTask) => {
     manageBtnsWrapper.append(getManageButtons(btnTask));
   });
@@ -206,13 +251,14 @@ function getManageBtnsWrapper() {
 }
 
 function getManageButtons(btnTask) {
-  const btn = createElementWithClassId("button", [
-    "game__btn-manage",
-    `game__btn-manage_${btnTask}`,
-  ]);
+  const btn = createElementWithClassId(
+    "button",
+    ["game__btn-manage", `game__btn-manage_${btnTask}`],
+    `game__btn-manage_${btnTask}`
+  );
   btn.textContent = MANAGE_BUTTON_TEXTS[btnTask];
-  if (btnTask === 'continue') {
-    btn.disabled = 'true';
+  if (btnTask === "continue") {
+    btn.disabled = "true";
   }
 
   return btn;
