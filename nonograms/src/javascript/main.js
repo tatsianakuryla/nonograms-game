@@ -25,10 +25,11 @@ const startGameBtn = document.getElementById("game__btn-manage_new");
 const continueGameBtn = document.getElementById("game__btn-manage_continue");
 
 randonGameBtn.addEventListener("click", () => {
-  gameState.setRandomGame();
+  gameState.startRandomGame();
   renderStartGameWindow();
 });
 
 startGameBtn.addEventListener("click", () => {
-    renderStartGameWindow();
+  gameState.startGame();
+  renderStartGameWindow();
 });
