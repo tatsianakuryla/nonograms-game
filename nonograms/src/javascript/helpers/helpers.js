@@ -12,7 +12,6 @@ export function textToCapitalCase(text) {
 
 export function hideElement(elements) {
   elements.forEach(element =>  element.classList.add('hidden'));
- 
 }
 
 export function showElement(elements) {

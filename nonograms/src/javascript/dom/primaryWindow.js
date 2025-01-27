@@ -245,18 +245,18 @@ function getManageBtnsWrapper() {
     "game__manage-btns-wrapper"
   );
   MANAGE_BUTTONS_TASKS.forEach((btnTask) => {
-    manageBtnsWrapper.append(getManageButtons(btnTask));
+    manageBtnsWrapper.append(getManageButtons(btnTask, MANAGE_BUTTON_TEXTS));
   });
   return manageBtnsWrapper;
 }
 
-function getManageButtons(btnTask) {
+export function getManageButtons(btnTask, text) {
   const btn = createElementWithClassId(
     "button",
     ["game__btn-manage", `game__btn-manage_${btnTask}`],
     `game__btn-manage_${btnTask}`
   );
-  btn.textContent = MANAGE_BUTTON_TEXTS[btnTask];
+  btn.textContent = text[btnTask];
   if (btnTask === "continue") {
     btn.disabled = "true";
   }

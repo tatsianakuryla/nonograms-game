@@ -266,8 +266,13 @@ h4 {
 /* matrix */
 
 .game__container-wrapper_matrix {
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.game__manage-btns-wrapper_game {
+    justify-content: space-around;
 }
 
 .game__matrix-top-hint-wrapper {
@@ -305,10 +310,40 @@ h4 {
     justify-content: center;
 }
 
+.game__matrix-element {
+    position: relative;
+    cursor: pointer;
+}
+
+.game__matrix-element_one {
+    background-color: var(--black);
+}
+
 .game__hint-top {
     flex-grow: 1;
     align-items: flex-end;
     padding-bottom: 5px;
+}
+
+.game__matrix-element-cross {
+    display: none;
+    position: absolute;
+    flex-shrink: 0;
+    border-radius: 1px;
+    height: 1px;
+    width: 15px;
+    background-color: var(--black);
+    transition: transform 1s ease-in-out, display 30s ease-in-out;
+}
+
+.cross .game__matrix-element-cross:first-child {
+    display: block;
+    transform: rotate(-45deg);
+}
+
+.cross .game__matrix-element-cross:nth-child(2) {
+    display: block;
+    transform: rotate(45deg);
 }
 
 .game__hints-row-left:not(:nth-child(5n + 5)),
@@ -355,6 +390,12 @@ h4 {
 .game__matrix-element:last-child {
     border-right: none;
 }
+
+.black-cell {
+    background-color: var(--black);
+}
+
+
 
 .hidden {
     display: none;

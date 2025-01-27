@@ -1,11 +1,19 @@
 import { createElementWithClassId, hideElement, addClass } from "../helpers/helpers.js";
 import { gameState } from "../gameState/gameState.js";
+import { getManageButtons } from "./primaryWindow.js";
+const MANAGE_BUTTONS_TASKS_GAME= ["answer", "reset", "new"];
+const MANAGE_BUTTON_TEXTS_GAME = {
+  answer: "Get answer",
+  reset: "Reset",
+  new: "New game",
+};
 
 export function renderStartGameWindow() {
   hidePrimaryWindow();
   const gameContainerWrapper = document.getElementById("game__container-wrapper");
   addClass(gameContainerWrapper, 'game__container-wrapper_matrix');
-  gameContainerWrapper.append(getMatrixWrapper());
+  gameContainerWrapper.append(getMatrixWrapper(), getManageBtnsWrapperGame());
+  gameState.makeCellBlackWhite();
 }
 
 function hidePrimaryWindow() {
@@ -24,8 +32,8 @@ function getMatrixWrapper() {
 
   const topHintMatrixWrapper = createElementWithClassId('div', ['game__matrix-top-hint-wrapper', 'flex']);
 
-  topHintMatrixWrapper.append(getHintsTop(), getMatrix());
-  matrixWrapper.append(getHintsLeft(), topHintMatrixWrapper);
+  topHintMatrixWrapper.append(getHints('top'), getMatrix());
+  matrixWrapper.append(getHints('left'), topHintMatrixWrapper);
 
   return matrixWrapper;
 }
@@ -38,6 +46,7 @@ function getMatrix() {
       const matrixElement = createElementWithClassId('div', ['game__matrix-element', 'flex'], 'game__matrix-element');
       matrixElement.setAttribute('data-i', rowIndex);
       matrixElement.setAttribute('data-j', columnIndex);
+      matrixElement.append(getLine(), getLine());
       matrixRow.append(matrixElement);
     });
     matrix.append(matrixRow);
@@ -45,32 +54,35 @@ function getMatrix() {
   return matrix;
 }
 
-function getHintsTop() {
-  const hintsTop = createElementWithClassId('div', ['game__matrix-hints', 'game__matrix-hints_top', 'flex'], 'game__matrix-hints_top');
-
-  gameState.hintsArrayTop.forEach((hintsArray) => {
-    const hintsRow = createElementWithClassId('div', ['game__hints-row-top', 'flex']);
-    hintsArray.forEach((hint) => {
-      const hintElement = createElementWithClassId('div', ['game__hint-top', 'flex']);
-      hintElement.textContent = hint;
-      hintsRow.append(hintElement);
-    });
-    hintsTop.append(hintsRow);
-  });
-
-  return hintsTop;
+function getLine() {
+  const line = createElementWithClassId('span', ['game__matrix-element-cross']); 
+  return line;
 }
 
-function getHintsLeft() {
-  const hintsLeft = createElementWithClassId('div', ['game__matrix-hints', 'game__matrix-hints_left', 'flex'], 'game__matrix-hints_left');
-  gameState.hintsArrayLeft.forEach((hintsArray) => {
-    const hintsRow = createElementWithClassId('div', ['game__hints-row-left', 'flex']);
+function getHints(location) {
+  const hints = createElementWithClassId('div', ['game__matrix-hints', `game__matrix-hints_${location}`, 'flex'], `game__matrix-hints_${location}`);
+  const gameStateArray = location === 'left' ? gameState.hintsArrayLeft : gameState.hintsArrayTop;
+  gameStateArray.forEach((hintsArray) => {
+    const hintsRow = createElementWithClassId('div', [`game__hints-row-${location}`, 'flex']);
     hintsArray.forEach((hint) => {
-      const hintElement = createElementWithClassId('div', ['game__hint-left', 'flex']);
+      const hintElement = createElementWithClassId('div', [`game__hint-${location}`, 'flex']);
       hintElement.textContent = hint;
       hintsRow.append(hintElement);
     });
-    hintsLeft.append(hintsRow);
+    hints.append(hintsRow);
   });
-  return hintsLeft;
+  return hints;
+
+}
+
+function getManageBtnsWrapperGame() {
+  const manageBtnsWrapper = createElementWithClassId(
+      "div",
+      ["game__manage-btns-wrapper", "game__manage-btns-wrapper_game", "flex"],
+      "game__manage-btns-wrapper"
+    );
+    MANAGE_BUTTONS_TASKS_GAME.forEach((btnTask) => {
+      manageBtnsWrapper.append(getManageButtons(btnTask, MANAGE_BUTTON_TEXTS_GAME));
+    });
+    return manageBtnsWrapper;
 }

@@ -1,6 +1,6 @@
 export const easyMatrixSet = new Map([
   [
-    "scissors",
+    'scissors',
     [
       [0, 1, 1, 0, 0],
       [1, 1, 1, 0, 0],
@@ -11,7 +11,7 @@ export const easyMatrixSet = new Map([
   ],
 
   [
-    "heart",
+    'heart',
     [
       [0, 1, 0, 1, 0],
       [1, 1, 1, 1, 1],
@@ -22,7 +22,7 @@ export const easyMatrixSet = new Map([
   ],
 
   [
-    "mashroom",
+    'mashroom',
     [
       [0, 1, 1, 1, 0],
       [1, 1, 1, 1, 1],
@@ -33,7 +33,7 @@ export const easyMatrixSet = new Map([
   ],
 
   [
-    "snowflake",
+    'snowflake',
     [
       [0, 1, 0, 1, 0],
       [1, 0, 1, 0, 1],
@@ -44,7 +44,7 @@ export const easyMatrixSet = new Map([
   ],
 
   [
-    "horse",
+    'horse',
     [
       [1, 1, 0, 0, 0],
       [0, 1, 0, 0, 0],
@@ -57,7 +57,7 @@ export const easyMatrixSet = new Map([
 
 export const mediumMatrixSet = new Map([
   [
-    "happy-man",
+    'happy-man',
     [
       [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
       [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
@@ -73,7 +73,7 @@ export const mediumMatrixSet = new Map([
   ],
 
   [
-    "concert-hall",
+    'concert-hall',
     [
       [1, 1, 1, 1, 0, 0, 1, 1, 1, 1],
       [1, 1, 1, 1, 0, 0, 1, 1, 1, 1],
@@ -89,7 +89,7 @@ export const mediumMatrixSet = new Map([
   ],
 
   [
-    "bird",
+    'bird',
     [
       [0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
       [0, 1, 1, 1, 1, 1, 0, 0, 0, 0],
@@ -105,7 +105,7 @@ export const mediumMatrixSet = new Map([
   ],
 
   [
-    "washbasins",
+    'washbasins',
     [
       [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
       [1, 0, 1, 1, 0, 0, 1, 1, 0, 1],
@@ -121,7 +121,7 @@ export const mediumMatrixSet = new Map([
   ],
 
   [
-    "spruce-family",
+    'spruce-family',
     [
       [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
       [0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
@@ -139,7 +139,7 @@ export const mediumMatrixSet = new Map([
 
 export const hardMatrixSet = new Map([
   [
-    "santa-with-gifts",
+    'santa-with-gifts',
     [
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1],
@@ -159,7 +159,7 @@ export const hardMatrixSet = new Map([
     ],
   ],
   [
-    "old-woman-in-farmacy",
+    'old-woman-in-farmacy',
     [
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1],
       [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
@@ -179,7 +179,7 @@ export const hardMatrixSet = new Map([
     ],
   ],
   [
-    "house-in-the-sun",
+    'house-in-the-sun',
     [
       [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
       [0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
@@ -199,7 +199,7 @@ export const hardMatrixSet = new Map([
     ],
   ],
   [
-    "new-year-hat",
+    'new-year-hat',
     [
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0],
@@ -219,7 +219,7 @@ export const hardMatrixSet = new Map([
     ],
   ],
   [
-    "ship",
+    'ship',
     [
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
@@ -241,9 +241,9 @@ export const hardMatrixSet = new Map([
 ]);
 
 export const LEVELS = new Map([
-  ["easy", easyMatrixSet],
-  ["medium", mediumMatrixSet],
-  ["hard", hardMatrixSet],
+  ['easy', easyMatrixSet],
+  ['medium', mediumMatrixSet],
+  ['hard', hardMatrixSet],
 ]);
 
 export const records = [
@@ -296,50 +296,31 @@ export const gameState = {
 
   startGame() {
     this.resetUserMatrix();
-    this.setTopHints();
-    this.setLeftHints();
+    this.hintsArrayTop = this.setHintsArray('top');
+    this.hintsArrayLeft = this.setHintsArray('left');
+    console.log(gameState);
   },
 
   startRandomGame() {
     this.setRandomGame(),
     this.resetUserMatrix();
-    this.setTopHints();
-    this.setLeftHints();
-  },
-
-  setTopHints() {
-    let hintsArray = [];
-    for (let i = 0; i < this.matrix.length; i++) {
-      let count = 0;
-      let hintsArrayJ = [];
-      for (let j = 0; j < this.matrix[i].length; j++) {
-        if (this.matrix[j][i] === 0) {
-          if (count > 0 ) {
-            hintsArrayJ.push(count);
-          }
-          count = 0;
-        } else {
-          count++;
-        }
-      }
-      if(count > 0) {
-        hintsArrayJ.push(count);
-      }
-      hintsArray.push(hintsArrayJ);
-    }
-    this.hintsArrayTop = hintsArray;
+    this.hintsArrayTop = this.setHintsArray('top');
+    this.hintsArrayLeft = this.setHintsArray('left');
     console.log(gameState);
   },
 
-  setLeftHints() {
+  setHintsArray() {
     let hintsArray = [];
     for (let i = 0; i < this.matrix.length; i++) {
       let count = 0;
-      let hintsArrayI = [];
+      let array = [];
       for (let j = 0; j < this.matrix[i].length; j++) {
-        if (this.matrix[i][j] === 0) {
+        let indexFirst = location === 'left' ? i : j;
+        let indexSecond = location === 'left' ? j : i;
+
+        if (this.matrix[indexFirst][indexSecond] === 0) {
           if (count > 0 ) {
-            hintsArrayI.push(count);
+            array.push(count);
           }
           count = 0;
         } else {
@@ -347,12 +328,50 @@ export const gameState = {
         }
       }
       if (count > 0) {
-        hintsArrayI.push(count);
+        array.push(count);
       }
-      hintsArray.push(hintsArrayI);
+      if (!array.length) {
+        hintsArray.push([' ']);
+      } else {
+        hintsArray.push(array);
+      }
     }
+    return hintsArray;
+  },
 
-    this.hintsArrayLeft = hintsArray;
+  makeCellBlackWhite() {
+    const cells = Array.from(document.getElementsByClassName('game__matrix-element'));
+    cells.forEach((cell) => {
+      cell.addEventListener('click', () => {
+        const iCell = +cell.getAttribute('data-i');
+        const jCell = +cell.getAttribute('data-j');
+        for (let i = 0; i < this.matrix.length; i++) {
+          for (let j = 0; j < this.matrix[i].length; j++) {
+            if (iCell === i && jCell === j) {
+              cell.classList.toggle("black-cell");
+              this.currentUserMatrix[i][j] = cell.classList.contains("black-cell") ? 1 : 0;
+              cell.classList.remove('cross');
+              //TODO - check and show isWon
+            }
+          }
+        }
+      });
+      cell.addEventListener('contextmenu', (event) => {
+        event.preventDefault();
+        const iCell = +cell.getAttribute('data-i');
+        const jCell = +cell.getAttribute('data-j');
+        for (let i = 0; i < this.matrix.length; i++) {
+          for (let j = 0; j < this.matrix[i].length; j++) {
+            if (iCell === i && jCell === j) {
+              cell.classList.remove("black-cell");
+              cell.classList.toggle('cross');
+              //TODO - cross
+            }
+          }
+        }
+      })
+    })
+
   },
 
 };
