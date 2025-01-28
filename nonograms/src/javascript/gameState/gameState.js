@@ -295,7 +295,7 @@ export const gameState = {
     return hintsArray;
   },
 
-  setCleanUserMatrix() {
+  resetMatrix() {
     this.currentUserMatrix = this.matrix.map((row) =>
       row.map((cell) => (cell === 1 ? 0 : cell))
     );
@@ -304,7 +304,7 @@ export const gameState = {
   firstLoading() {
     this.hintsArrayLeft = this.setHintsArray("left");
     this.hintsArrayTop = this.setHintsArray("top");
-    this.setCleanUserMatrix();
+    this.resetMatrix();
   },
 
   setLevel(newLevel) {
@@ -314,14 +314,14 @@ export const gameState = {
     this.matrixName = textToCapitalCase(Array.from(this.matrixSet.keys())[0]);
     this.hintsArrayLeft = this.setHintsArray("left");
     this.hintsArrayTop = this.setHintsArray("top");
-    this.setCleanUserMatrix();
+    this.resetMatrix();
   },
 
   setMatrix(key) {
     this.matrix = this.matrixSet.get(key.toLowerCase().replaceAll(' ', '-'));
     this.hintsArrayLeft = this.setHintsArray("left");
     this.hintsArrayTop = this.setHintsArray("top");
-    this.setCleanUserMatrix();
+    this.resetMatrix();
   },
 
   setRandomGame() {
@@ -338,50 +338,11 @@ export const gameState = {
     this.matrixName = textToCapitalCase(Array.from(this.matrixSet.keys())[randomMatrixIndex]);
     this.hintsArrayLeft = this.setHintsArray("left");
     this.hintsArrayTop = this.setHintsArray("top");
-    this.setCleanUserMatrix();
+    this.resetMatrix();
   },
 
   isGameWon() {
     return JSON.stringify(this.matrix === this.currentUserMatrix);
   },
 
-  makeCellBlackWhite() {
-    const cells = Array.from(
-      document.getElementsByClassName("game__matrix-element")
-    );
-    cells.forEach((cell) => {
-      cell.addEventListener("click", () => {
-        const iCell = +cell.getAttribute("data-i");
-        const jCell = +cell.getAttribute("data-j");
-        for (let i = 0; i < this.matrix.length; i++) {
-          for (let j = 0; j < this.matrix[i].length; j++) {
-            if (iCell === i && jCell === j) {
-              cell.classList.toggle("black-cell");
-              this.currentUserMatrix[i][j] = cell.classList.contains(
-                "black-cell"
-              )
-                ? 1
-                : 0;
-              cell.classList.remove("cross");
-              //TODO - check and show isWon
-            }
-          }
-        }
-      });
-      cell.addEventListener("contextmenu", (event) => {
-        event.preventDefault();
-        const iCell = +cell.getAttribute("data-i");
-        const jCell = +cell.getAttribute("data-j");
-        for (let i = 0; i < this.matrix.length; i++) {
-          for (let j = 0; j < this.matrix[i].length; j++) {
-            if (iCell === i && jCell === j) {
-              cell.classList.remove("black-cell");
-              cell.classList.toggle("cross");
-              //TODO - cross
-            }
-          }
-        }
-      });
-    });
-  },
 };

@@ -256,7 +256,7 @@ h4 {
 .game__hint-top {
     flex-grow: 1;
     align-items: flex-end;
-    padding-bottom: 5px;
+    padding-bottom: 2px;
 }
 
 .game__matrix-element-cross {
@@ -310,6 +310,7 @@ h4 {
 
 .game__matrix-element:nth-child(5n + 5) {
     border-right: 3px solid var(--main-color);
+    width: 22px;
 }
 
 .game__hints-row-top:not(:nth-child(5n + 5)) > .game__hint-top {
@@ -318,6 +319,7 @@ h4 {
 
 .game__hints-row-top:nth-child(5n + 5) > .game__hint-top {
     border-right: 3px solid var(--main-color);
+    width: 22px;
 }
 
 .game__hints-row-top:last-child > .game__hint-top,
@@ -328,6 +330,22 @@ h4 {
 .black-cell {
     background-color: var(--black);
 }
+
+/* timer */
+
+.game__timer {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 7px;
+    border: 2px solid var(--main-color);
+    border-radius: 8px;
+    font-size: 1.1rem;
+    background-color: var(--lvl-btn);
+}
+
 
 .hidden {
     display: none;

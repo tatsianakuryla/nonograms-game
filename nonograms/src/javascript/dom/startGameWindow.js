@@ -10,6 +10,7 @@ import {
   addEventListenerPictureSelect,
 } from "./pictureChoice.js";
 import { getButtons } from "./buttons.js";
+import { getTimer } from "./timer.js";
 
 const MANAGE_BUTTONS_TASKS = [
   "random",
@@ -66,7 +67,7 @@ function getGameContainer() {
     ["game__wrapper", "flex"],
     "game__wrapper"
   );
-  wrapper.append(getMatrixSection(), getGameAside(), getModeBtnsSection());
+  wrapper.append(getMatrixSection(), getGameAside(), getModeBtnsSection(), getTimer());
   gameContainer.append(heading, wrapper);
   return gameContainer;
 }

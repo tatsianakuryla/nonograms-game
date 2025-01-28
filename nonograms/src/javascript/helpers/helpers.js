@@ -1,3 +1,5 @@
+import { gameState } from "../gameState/gameState.js";
+
 export function createElementWithClassId(tag, classList = [], id = null) {
   const element = document.createElement(tag);
   classList.forEach(className =>  element.classList.add(className));
@@ -22,6 +24,10 @@ export function addClass(element, className) {
   element.classList.add(className);
 }
 
+export function removeClass(element, className) {
+  element.classList.remove(className);
+}
+
 export function renderRandomlySelectedOption(select) {
   let selectedIndex = 0;
   let compareWith = select === "level" ? gameState.level : gameState.matrixName;
@@ -31,4 +37,14 @@ export function renderRandomlySelectedOption(select) {
     }
   );
   document.getElementById(select).selectedIndex = selectedIndex;
+}
+
+export function disableElement(element) {
+  element.disabled = 'true';
+  element.style.cursor = 'auto';
+}
+
+export function enableElement(element) {
+  element.disabled = '';
+  element.style.cursor = 'pointer';
 }

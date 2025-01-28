@@ -55,7 +55,6 @@ export function renderPictureSelect(level = "easy") {
 export function addEventListenerPictureSelect() {
   document.getElementById("picture").addEventListener("change", (event) => {
     gameState.setMatrix(event.target.value);
-    console.log(gameState);
     renderMatrixSection();
   });
 }

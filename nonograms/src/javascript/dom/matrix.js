@@ -1,4 +1,5 @@
 import { gameState } from "../gameState/gameState.js";
+import { gameStateShow } from "../gameStateShow/gameStateShow.js";
 import { createElementWithClassId } from "../helpers/helpers.js";
 
 export function getMatrixSection() {
@@ -22,7 +23,12 @@ export function renderMatrixSection() {
   gameState.setHintsArray('top');
   topHintMatrixWrapper.append(getHints("top"), getMatrix());
   matrixWrapper.append(getHints("left"), topHintMatrixWrapper);
-  gameState.makeCellBlackWhite();
+
+  gameStateShow.afterMatrixRender();
+
+  gameStateShow.matrixSection.addEventListener('click', () => {
+    gameStateShow.gameStart();
+  }, {once : true});
 }
 
 function getMatrix() {
@@ -56,6 +62,7 @@ function getLine() {
   const line = createElementWithClassId("span", ["game__matrix-element-cross"]);
   return line;
 }
+
 function getHints(location) {
   const hints = createElementWithClassId(
     "div",
