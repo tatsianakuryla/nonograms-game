@@ -21,3 +21,14 @@ export function showElement(elements) {
 export function addClass(element, className) {
   element.classList.add(className);
 }
+
+export function renderRandomlySelectedOption(select) {
+  let selectedIndex = 0;
+  let compareWith = select === "level" ? gameState.level : gameState.matrixName;
+  Array.from(document.getElementsByClassName(`game__${select}-option`)).forEach(
+    (option, index) => {
+      option.value === compareWith ? (selectedIndex = index) : selectedIndex;
+    }
+  );
+  document.getElementById(select).selectedIndex = selectedIndex;
+}
