@@ -1,6 +1,8 @@
+import { textToCapitalCase } from "../helpers/helpers.js";
+
 export const easyMatrixSet = new Map([
   [
-    'scissors',
+    "scissors",
     [
       [0, 1, 1, 0, 0],
       [1, 1, 1, 0, 0],
@@ -11,7 +13,7 @@ export const easyMatrixSet = new Map([
   ],
 
   [
-    'heart',
+    "heart",
     [
       [0, 1, 0, 1, 0],
       [1, 1, 1, 1, 1],
@@ -22,7 +24,7 @@ export const easyMatrixSet = new Map([
   ],
 
   [
-    'mashroom',
+    "mashroom",
     [
       [0, 1, 1, 1, 0],
       [1, 1, 1, 1, 1],
@@ -33,7 +35,7 @@ export const easyMatrixSet = new Map([
   ],
 
   [
-    'snowflake',
+    "snowflake",
     [
       [0, 1, 0, 1, 0],
       [1, 0, 1, 0, 1],
@@ -44,7 +46,7 @@ export const easyMatrixSet = new Map([
   ],
 
   [
-    'horse',
+    "horse",
     [
       [1, 1, 0, 0, 0],
       [0, 1, 0, 0, 0],
@@ -57,7 +59,7 @@ export const easyMatrixSet = new Map([
 
 export const mediumMatrixSet = new Map([
   [
-    'happy-man',
+    "happy-man",
     [
       [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
       [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
@@ -73,7 +75,7 @@ export const mediumMatrixSet = new Map([
   ],
 
   [
-    'concert-hall',
+    "concert-hall",
     [
       [1, 1, 1, 1, 0, 0, 1, 1, 1, 1],
       [1, 1, 1, 1, 0, 0, 1, 1, 1, 1],
@@ -89,7 +91,7 @@ export const mediumMatrixSet = new Map([
   ],
 
   [
-    'bird',
+    "bird",
     [
       [0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
       [0, 1, 1, 1, 1, 1, 0, 0, 0, 0],
@@ -105,7 +107,7 @@ export const mediumMatrixSet = new Map([
   ],
 
   [
-    'washbasins',
+    "washbasins",
     [
       [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
       [1, 0, 1, 1, 0, 0, 1, 1, 0, 1],
@@ -121,7 +123,7 @@ export const mediumMatrixSet = new Map([
   ],
 
   [
-    'spruce-family',
+    "spruce-family",
     [
       [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
       [0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
@@ -139,7 +141,7 @@ export const mediumMatrixSet = new Map([
 
 export const hardMatrixSet = new Map([
   [
-    'santa-with-gifts',
+    "santa-with-gifts",
     [
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1],
@@ -159,7 +161,7 @@ export const hardMatrixSet = new Map([
     ],
   ],
   [
-    'old-woman-in-farmacy',
+    "old-woman-in-farmacy",
     [
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1],
       [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
@@ -179,7 +181,7 @@ export const hardMatrixSet = new Map([
     ],
   ],
   [
-    'house-in-the-sun',
+    "house-in-the-sun",
     [
       [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
       [0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
@@ -199,7 +201,7 @@ export const hardMatrixSet = new Map([
     ],
   ],
   [
-    'new-year-hat',
+    "new-year-hat",
     [
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0],
@@ -219,7 +221,7 @@ export const hardMatrixSet = new Map([
     ],
   ],
   [
-    'ship',
+    "ship",
     [
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
@@ -241,9 +243,9 @@ export const hardMatrixSet = new Map([
 ]);
 
 export const LEVELS = new Map([
-  ['easy', easyMatrixSet],
-  ['medium', mediumMatrixSet],
-  ['hard', hardMatrixSet],
+  ["easy", easyMatrixSet],
+  ["medium", mediumMatrixSet],
+  ["hard", hardMatrixSet],
 ]);
 
 export const records = [
@@ -258,68 +260,22 @@ export const gameState = {
   level: "easy",
   matrixSet: LEVELS.get("easy"),
   matrix: Array.from(easyMatrixSet.values())[0],
+  matrixName: textToCapitalCase(Array.from(easyMatrixSet.keys())[0]),
   currentUserMatrix: [],
   hintsArrayTop: [],
   hintsArrayLeft: [],
 
-  setLevel(newLevel) {
-    this.level = newLevel;
-    this.matrixSet = LEVELS.get(newLevel);
-    this.matrix = Array.from(this.matrixSet.values())[0];
-  },
-
-  setMatrix(key) {
-    this.matrix = this.matrixSet.get(key);
-  },
-
-  setRandomGame() {
-    const randomLevelIndex = Math.floor(
-      Math.random() * Array.from(LEVELS.keys()).length
-    );
-    this.matrixSet = LEVELS.get(Array.from(LEVELS.keys())[randomLevelIndex]);
-    const randomMatrixIndex = Math.floor(
-      Math.random() * Array.from(this.matrixSet.keys()).length
-    );
-    this.matrix = Array.from(this.matrixSet.values())[randomMatrixIndex];
-
-  },
-
-  resetUserMatrix() {
-    this.currentUserMatrix = this.matrix.map((row) =>
-      row.map((cell) => (cell === 1 ? 0 : cell))
-    );
-  },
-
-  isGameWon() {
-    return JSON.stringify(this.matrix === this.currentUserMatrix);
-  },
-
-  startGame() {
-    this.resetUserMatrix();
-    this.hintsArrayTop = this.setHintsArray('top');
-    this.hintsArrayLeft = this.setHintsArray('left');
-    console.log(gameState);
-  },
-
-  startRandomGame() {
-    this.setRandomGame(),
-    this.resetUserMatrix();
-    this.hintsArrayTop = this.setHintsArray('top');
-    this.hintsArrayLeft = this.setHintsArray('left');
-    console.log(gameState);
-  },
-
-  setHintsArray() {
+  setHintsArray(location) {
     let hintsArray = [];
     for (let i = 0; i < this.matrix.length; i++) {
       let count = 0;
       let array = [];
       for (let j = 0; j < this.matrix[i].length; j++) {
-        let indexFirst = location === 'left' ? i : j;
-        let indexSecond = location === 'left' ? j : i;
+        let indexFirst = location === "left" ? i : j;
+        let indexSecond = location === "left" ? j : i;
 
         if (this.matrix[indexFirst][indexSecond] === 0) {
-          if (count > 0 ) {
+          if (count > 0) {
             array.push(count);
           }
           count = 0;
@@ -331,7 +287,7 @@ export const gameState = {
         array.push(count);
       }
       if (!array.length) {
-        hintsArray.push([' ']);
+        hintsArray.push([" "]);
       } else {
         hintsArray.push(array);
       }
@@ -339,39 +295,93 @@ export const gameState = {
     return hintsArray;
   },
 
+  setCleanUserMatrix() {
+    this.currentUserMatrix = this.matrix.map((row) =>
+      row.map((cell) => (cell === 1 ? 0 : cell))
+    );
+  },
+
+  firstLoading() {
+    this.hintsArrayLeft = this.setHintsArray("left");
+    this.hintsArrayTop = this.setHintsArray("top");
+    this.setCleanUserMatrix();
+  },
+
+  setLevel(newLevel) {
+    this.level = newLevel;
+    this.matrixSet = LEVELS.get(newLevel);
+    this.matrix = Array.from(this.matrixSet.values())[0];
+    this.matrixName = textToCapitalCase(Array.from(this.matrixSet.keys())[0]);
+    this.hintsArrayLeft = this.setHintsArray("left");
+    this.hintsArrayTop = this.setHintsArray("top");
+    this.setCleanUserMatrix();
+  },
+
+  setMatrix(key) {
+    this.matrix = this.matrixSet.get(key.toLowerCase().replaceAll(' ', '-'));
+    this.hintsArrayLeft = this.setHintsArray("left");
+    this.hintsArrayTop = this.setHintsArray("top");
+    this.setCleanUserMatrix();
+  },
+
+  setRandomGame() {
+    const randomLevelIndex = Math.floor(
+      Math.random() * Array.from(LEVELS.keys()).length
+    );
+    this.matrixSet = LEVELS.get(Array.from(LEVELS.keys())[randomLevelIndex]);
+    const randomMatrixIndex = Math.floor(
+      Math.random() * Array.from(this.matrixSet.keys()).length
+    );
+
+    this.level = Array.from(LEVELS.keys())[randomLevelIndex];
+    this.matrix = Array.from(this.matrixSet.values())[randomMatrixIndex];
+    this.matrixName = textToCapitalCase(Array.from(this.matrixSet.keys())[randomMatrixIndex]);
+    this.hintsArrayLeft = this.setHintsArray("left");
+    this.hintsArrayTop = this.setHintsArray("top");
+    this.setCleanUserMatrix();
+  },
+
+  isGameWon() {
+    return JSON.stringify(this.matrix === this.currentUserMatrix);
+  },
+
   makeCellBlackWhite() {
-    const cells = Array.from(document.getElementsByClassName('game__matrix-element'));
+    const cells = Array.from(
+      document.getElementsByClassName("game__matrix-element")
+    );
     cells.forEach((cell) => {
-      cell.addEventListener('click', () => {
-        const iCell = +cell.getAttribute('data-i');
-        const jCell = +cell.getAttribute('data-j');
+      cell.addEventListener("click", () => {
+        const iCell = +cell.getAttribute("data-i");
+        const jCell = +cell.getAttribute("data-j");
         for (let i = 0; i < this.matrix.length; i++) {
           for (let j = 0; j < this.matrix[i].length; j++) {
             if (iCell === i && jCell === j) {
               cell.classList.toggle("black-cell");
-              this.currentUserMatrix[i][j] = cell.classList.contains("black-cell") ? 1 : 0;
-              cell.classList.remove('cross');
+              this.currentUserMatrix[i][j] = cell.classList.contains(
+                "black-cell"
+              )
+                ? 1
+                : 0;
+              cell.classList.remove("cross");
               //TODO - check and show isWon
             }
           }
         }
       });
-      cell.addEventListener('contextmenu', (event) => {
+      cell.addEventListener("contextmenu", (event) => {
         event.preventDefault();
-        const iCell = +cell.getAttribute('data-i');
-        const jCell = +cell.getAttribute('data-j');
+        const iCell = +cell.getAttribute("data-i");
+        const jCell = +cell.getAttribute("data-j");
         for (let i = 0; i < this.matrix.length; i++) {
           for (let j = 0; j < this.matrix[i].length; j++) {
             if (iCell === i && jCell === j) {
               cell.classList.remove("black-cell");
-              cell.classList.toggle('cross');
+              cell.classList.toggle("cross");
               //TODO - cross
             }
           }
         }
-      })
-    })
-
+      });
+    });
   },
-
 };

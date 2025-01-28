@@ -1,35 +1,17 @@
-import { renderPrimarytWindow, renderGameImages } from "./dom/primaryWindow.js";
-import { gameState } from "./gameState/gameState.js";
 import { renderStartGameWindow } from "./dom/startGameWindow.js";
+import { gameState } from "./gameState/gameState.js";
+import { renderPictureSelect, addEventListenerPictureSelect } from "./dom/pictureChoice.js";
+import { renderMatrixSection } from "./dom/matrix.js";
 
-renderPrimarytWindow();
+renderStartGameWindow();
 
-Array.from(document.getElementsByClassName("game__level-label")).forEach(
-  (label) => {
-    label.addEventListener("click", (event) => {
-      gameState.setLevel(event.target.getAttribute("for"));
-      renderGameImages(gameState.level);
-      Array.from(document.getElementsByClassName("game__image-label")).forEach(
-        (label) => {
-          label.addEventListener("click", (event) => {
-            gameState.setMatrix(event.target.getAttribute("for"));
-          });
-        }
-      );
-    });
-  }
-);
-
-const randonGameBtn = document.getElementById("game__btn-manage_random");
-const startGameBtn = document.getElementById("game__btn-manage_new");
-const continueGameBtn = document.getElementById("game__btn-manage_continue");
-
-randonGameBtn.addEventListener("click", () => {
-  gameState.startRandomGame();
-  renderStartGameWindow();
-});
-
-startGameBtn.addEventListener("click", () => {
-  gameState.startGame();
-  renderStartGameWindow();
+document.getElementById("level").addEventListener("change", (event) => {
+  gameState.setLevel(event.target.value);
+  renderPictureSelect(gameState.level);
+  renderMatrixSection();
+  document.getElementById("picture").addEventListener("change", (event) => {
+    gameState.setMatrix(event.target.value);
+    renderMatrixSection();
+    addEventListenerPictureSelect();
+  });
 });
