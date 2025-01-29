@@ -33,18 +33,23 @@ export function renderRandomlySelectedOption(select) {
   let compareWith = select === "level" ? gameState.level : gameState.matrixName;
   Array.from(document.getElementsByClassName(`game__${select}-option`)).forEach(
     (option, index) => {
-      option.value === compareWith ? (selectedIndex = index) : selectedIndex;
+      option.value.replaceAll(' ', '-') === compareWith ? (selectedIndex = index) : selectedIndex;
     }
   );
   document.getElementById(select).selectedIndex = selectedIndex;
+  selectedIndex = 0;
 }
 
 export function disableElement(element) {
-  element.disabled = 'true';
-  element.style.cursor = 'auto';
+  if (!element.disabled) {
+    element.disabled = 'true';
+    element.style.cursor = 'auto';
+  };
 }
 
 export function enableElement(element) {
-  element.disabled = '';
-  element.style.cursor = 'pointer';
+  if (element.disabled) {
+    element.disabled = '';
+    element.style.cursor = 'pointer';
+  }
 }

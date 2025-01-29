@@ -124,7 +124,13 @@ h4 {
     color: var(--main-color);
     background-color: var(--manage-btns);
     cursor: pointer;
-    transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+    transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.game__btn-manage:focus {
+    background-color: var(--lvl-btn);
+    border-color: var(--lvl-btn);
+    transform: scale(1.05);
 }
 
 .game__btn-manage:hover {

@@ -1,24 +1,37 @@
 import { gameState } from "../gameState/gameState.js";
-import { enableElement, disableElement, removeClass } from "../helpers/helpers.js";
-import { randomBtn, levelSelect, resetBtn, saveBtn, timer } from "../main.js";
+import {
+  enableElement,
+  disableElement,
+  removeClass,
+  addClass,
+} from "../helpers/helpers.js";
+import {
+  randomBtn,
+  levelSelect,
+  resetBtn,
+  saveBtn,
+  solutionBtn,
+  timer,
+} from "../main.js";
 
 let seconds = 0;
 let minutes = 0;
 let interval = 0;
 
 function setTimer() {
-    seconds++;
-    if (seconds === 60) {
-        minutes++;
-        seconds = 0;
-    }
-    timer.textContent = String(minutes).padStart(2, '0') + ' : ' + String(seconds).padStart(2, 0);
+  seconds++;
+  if (seconds === 60) {
+    minutes++;
+    seconds = 0;
+  }
+  timer.textContent =
+    String(minutes).padStart(2, "0") + " : " + String(seconds).padStart(2, 0);
 }
 
 export const gameStateShow = {
-
   cells: [],
   matrixSection: [],
+  picture: '',
 
   getMatrixCells() {
     this.cells = Array.from(
@@ -27,10 +40,14 @@ export const gameStateShow = {
   },
 
   getMatrixSection() {
-    this.matrixSection = document.getElementById('game__matrix');
+    this.matrixSection = document.getElementById("game__matrix");
   },
 
-  makeCellBlackWhite() {
+  getPicture() {
+    this.picture = document.getElementById("picture");
+  },
+
+  cellsEventListener() {
     this.cells.forEach((cell) => {
       cell.addEventListener("click", () => {
         const iCell = +cell.getAttribute("data-i");
@@ -67,36 +84,146 @@ export const gameStateShow = {
     });
   },
 
+  setTimer() {
+    interval = setInterval(setTimer, 1000);
+  },
+
+  resetTimer() {
+    clearInterval(interval);
+    timer.textContent = "00 : 00";
+    seconds = 0;
+    minutes = 0;
+  },
+
   afterMatrixRender() {
     this.getMatrixCells();
+    this.cellsEventListener();
+    this.getPicture();
+
     this.getMatrixSection();
-    this.makeCellBlackWhite();
+    this.matrixSectionEventListener();
   },
 
   gameStart() {
-    interval = setInterval(setTimer, 1000);
+    this.setTimer();
+
     disableElement(randomBtn);
+    disableElement(this.picture);
     disableElement(levelSelect);
-    disableElement(document.getElementById("picture"));
+
     enableElement(resetBtn);
     enableElement(saveBtn);
   },
 
-  resetMatrix() {
-    this.cells.forEach(cell => removeClass(cell, 'black-cell'));
-    clearInterval(interval);
-    timer.textContent = '00 : 00';
-    seconds = 0;
-    minutes = 0;
-    enableElement(randomBtn);
-    enableElement(levelSelect);
-    enableElement(document.getElementById("picture"));
-    this.matrixSection.addEventListener('click', () => {
-      gameStateShow.gameStart();
-    }, {once : true});
-    disableElement(resetBtn);
+  gameEnd() {
+    this.resetTimer();
+
+
   },
 
+  resetGame() {
+    this.cells.forEach((cell) => removeClass(cell, "black-cell"));
 
+    this.resetTimer();
+    this.matrixSection.style.pointerEvents = "";
+    this.matrixSectionEventListener();
 
+    enableElement(randomBtn);
+    enableElement(this.picture);
+    enableElement(levelSelect);
+    enableElement(solutionBtn);
+
+    disableElement(resetBtn);
+    disableElement(saveBtn);
+  },
+
+  showSolution() {
+    this.cells.forEach((cell) => {
+      const cellI = cell.getAttribute("data-i");
+      const cellJ = cell.getAttribute("data-j");
+      if (gameState.matrix[cellI][cellJ] === 1) {
+        addClass(cell, "black-cell");
+      }
+      else {
+        removeClass(cell, "black-cell");
+      }
+    });
+    this.matrixSection.style.pointerEvents = "none";
+
+    this.resetTimer();
+    disableElement(solutionBtn);
+    enableElement(resetBtn);
+    resetBtn.focus();
+  },
+
+  matrixSectionEventListener() {
+    this.matrixSection.addEventListener(
+      "click",
+      () => {
+        this.gameStart();
+      },
+      { once: true }
+    );
+  },
 };
+
+
+// this.getMatrixCells();
+//     this.getMatrixSection();
+//     this.matrixSection.style.pointerEvents = "";
+//     this.makeCellBlackWhite();
+
+//     this.matrixSection.addEventListener(
+//       "click",
+//       () => {
+//         this.setTimer();
+//         this.gameStart();
+//       },
+//       { once: true }
+//     );
+
+// this.resetTimer();
+
+// enableElement(resetBtn);
+// enableElement(randomBtn);
+// enableElement(document.getElementById("picture"));
+// enableElement(levelSelect);
+// disableElement(saveBtn);
+// disableElement(solutionBtn);
+// this.matrixSection.style.pointerEvents = "none";
+
+    // enableElement(randomBtn);
+    // enableElement(levelSelect);
+    // enableElement(solutionBtn);
+    // enableElement(document.getElementById("picture"));
+    // disableElement(resetBtn);
+    // disableElement(saveBtn);
+
+
+
+    // this.resetTimer();
+
+    // enableElement(randomBtn);
+    // enableElement(levelSelect);
+    // enableElement(solutionBtn);
+    // enableElement(document.getElementById("picture"));
+    // disableElement(resetBtn);
+    // disableElement(saveBtn);
+
+    // this.matrixSection.style.pointerEvents = "";
+    // this.matrixSection.addEventListener(
+    //   "click",
+    //   () => {
+    //     this.setTimer();
+    //     this.gameStart();
+    //   },
+    //   { once: true }
+    // );
+
+
+    // disableElement(randomBtn);
+    // disableElement(levelSelect);
+    // disableElement(document.getElementById("picture"));
+    // enableElement(resetBtn);
+    // enableElement(saveBtn);
+    // enableElement(solutionBtn);

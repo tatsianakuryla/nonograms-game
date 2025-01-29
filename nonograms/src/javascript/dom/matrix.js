@@ -1,6 +1,6 @@
 import { gameState } from "../gameState/gameState.js";
-import { gameStateShow } from "../gameStateShow/gameStateShow.js";
 import { createElementWithClassId } from "../helpers/helpers.js";
+import { gameStateShow } from "../gameStateShow/gameStateShow.js";
 
 export function getMatrixSection() {
   const matrixWrapper = createElementWithClassId("div", [
@@ -23,12 +23,7 @@ export function renderMatrixSection() {
   gameState.setHintsArray('top');
   topHintMatrixWrapper.append(getHints("top"), getMatrix());
   matrixWrapper.append(getHints("left"), topHintMatrixWrapper);
-
   gameStateShow.afterMatrixRender();
-
-  gameStateShow.matrixSection.addEventListener('click', () => {
-    gameStateShow.gameStart();
-  }, {once : true});
 }
 
 function getMatrix() {
