@@ -1,7 +1,7 @@
 import { createElementWithClassId } from "../helpers/helpers.js";
 
 import { gameState } from "../gameState/gameState.js";
-import { getModeBtnsSection } from "./mode.js";
+import { getModeBtn } from "./mode.js";
 import { getLevelChoiceSection } from "./levelChoice.js";
 import { getMatrixSection, renderMatrixSection } from "./matrix.js";
 import {
@@ -18,7 +18,7 @@ const MANAGE_BUTTONS_TASKS = [
   "results",
   "continue",
   "reset",
-  "save"
+  "save",
 ];
 
 const MANAGE_BUTTON_TEXTS = {
@@ -67,7 +67,7 @@ function getGameContainer() {
     ["game__wrapper", "flex"],
     "game__wrapper"
   );
-  wrapper.append(getMatrixSection(), getGameAside(), getModeBtnsSection(), getTimer());
+  wrapper.append(getMatrixSection(), getGameAside(), getModeBtn(), getTimer());
   gameContainer.append(heading, wrapper);
   return gameContainer;
 }
@@ -86,4 +86,3 @@ function getGameAside() {
   gameAside.append(getLevelChoiceSection(), getPictureChoiceSection());
   return gameAside;
 }
-

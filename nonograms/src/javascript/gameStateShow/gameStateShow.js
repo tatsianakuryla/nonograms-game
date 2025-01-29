@@ -1,3 +1,5 @@
+import { renderMatrixSection } from "../dom/matrix.js";
+import { addEventListenerPictureSelect, renderPictureSelect } from "../dom/pictureChoice.js";
 import { gameState } from "../gameState/gameState.js";
 import {
   enableElement,
@@ -31,7 +33,10 @@ function setTimer() {
 export const gameStateShow = {
   cells: [],
   matrixSection: [],
-  picture: '',
+  picture: "",
+  resultMinutes: 0,
+  resultSeconds: 0,
+  resultTimeS: 0,
 
   getMatrixCells() {
     this.cells = Array.from(
@@ -43,7 +48,7 @@ export const gameStateShow = {
     this.matrixSection = document.getElementById("game__matrix");
   },
 
-  getPicture() {
+  getPictureSelect() {
     this.picture = document.getElementById("picture");
   },
 
@@ -62,9 +67,11 @@ export const gameStateShow = {
                 ? 1
                 : 0;
               cell.classList.remove("cross");
-              //TODO - check and show isWon
             }
           }
+        }
+        if (gameState.isGameWon()) {
+          gameStateShow.gameWon();
         }
       });
       cell.addEventListener("contextmenu", (event) => {
@@ -75,10 +82,14 @@ export const gameStateShow = {
           for (let j = 0; j < gameState.matrix[i].length; j++) {
             if (iCell === i && jCell === j) {
               cell.classList.remove("black-cell");
+              gameState.currentUserMatrix[i][j] = 0;
               cell.classList.toggle("cross");
               //TODO - cross
             }
           }
+        }
+        if (gameState.isGameWon()) {
+          gameStateShow.gameWon();
         }
       });
     });
@@ -98,10 +109,24 @@ export const gameStateShow = {
   afterMatrixRender() {
     this.getMatrixCells();
     this.cellsEventListener();
-    this.getPicture();
+    this.getPictureSelect();
 
     this.getMatrixSection();
     this.matrixSectionEventListener();
+  },
+
+  levelChange() {
+    renderPictureSelect(gameState.level);
+    renderMatrixSection();
+    enableElement(solutionBtn);
+    disableElement(resetBtn);
+  },
+
+  pictureChange() {
+    renderMatrixSection();
+    enableElement(solutionBtn);
+    disableElement(resetBtn);
+    addEventListenerPictureSelect();
   },
 
   gameStart() {
@@ -115,14 +140,27 @@ export const gameStateShow = {
     enableElement(saveBtn);
   },
 
-  gameEnd() {
+  gameWon() {
+    this.resultMinutes = minutes;
+    this.resultSeconds = seconds;
+    this.resultTimeS = this.resultMinutes * 60 + this.resultSeconds;
+
     this.resetTimer();
+    console.log(`You are a winer! Your result: ${this.resultTimeS}s`);
 
-
+    enableElement(randomBtn);
+    enableElement(this.picture);
+    enableElement(levelSelect);
+    disableElement(solutionBtn);
+    this.matrixSection.style.pointerEvents = "none";
+    resetBtn.focus();
   },
 
   resetGame() {
-    this.cells.forEach((cell) => removeClass(cell, "black-cell"));
+    this.cells.forEach((cell) => {
+      removeClass(cell, "black-cell");
+      removeClass(cell, "cross");
+    });
 
     this.resetTimer();
     this.matrixSection.style.pointerEvents = "";
@@ -143,87 +181,56 @@ export const gameStateShow = {
       const cellJ = cell.getAttribute("data-j");
       if (gameState.matrix[cellI][cellJ] === 1) {
         addClass(cell, "black-cell");
-      }
-      else {
+      } else {
         removeClass(cell, "black-cell");
+        removeClass(cell, "cross");
       }
     });
     this.matrixSection.style.pointerEvents = "none";
 
     this.resetTimer();
     disableElement(solutionBtn);
+    disableElement(saveBtn);
     enableElement(resetBtn);
-    resetBtn.focus();
+    enableElement(randomBtn);
+  },
+
+  showRandomGame() {
+    renderMatrixSection();
+    enableElement(solutionBtn);
+    enableElement(this.picture);
+    enableElement(levelSelect);
+    disableElement(resetBtn);
+
+    Array.from(levelSelect).forEach((option, index) => {
+      option.value.replaceAll(" ", "-") === gameState.level
+        ? (levelSelect.selectedIndex = index)
+        : levelSelect.selectedIndex;
+    });
+
+    renderPictureSelect(gameState.level);
+
+    Array.from(this.picture).forEach((option, index) => {
+      option.value.replaceAll(" ", "-") === gameState.matrixName
+        ? (this.picture.selectedIndex = index)
+        : this.picture.selectedIndex;
+    });
   },
 
   matrixSectionEventListener() {
-    this.matrixSection.addEventListener(
-      "click",
-      () => {
-        this.gameStart();
-      },
-      { once: true }
-    );
-  },
+    if (this.gameStartHandler) {
+      this.matrixSection.removeEventListener("mousedown", this.gameStartHandler);
+    }
+
+    this.gameStartHandler = (event) => {
+      if (event.button === 1) {
+        event.preventDefault();
+        return;
+      }
+      this.gameStart();
+    };
+
+    this.matrixSection.addEventListener("mousedown", this.gameStartHandler);
+  }
+
 };
-
-
-// this.getMatrixCells();
-//     this.getMatrixSection();
-//     this.matrixSection.style.pointerEvents = "";
-//     this.makeCellBlackWhite();
-
-//     this.matrixSection.addEventListener(
-//       "click",
-//       () => {
-//         this.setTimer();
-//         this.gameStart();
-//       },
-//       { once: true }
-//     );
-
-// this.resetTimer();
-
-// enableElement(resetBtn);
-// enableElement(randomBtn);
-// enableElement(document.getElementById("picture"));
-// enableElement(levelSelect);
-// disableElement(saveBtn);
-// disableElement(solutionBtn);
-// this.matrixSection.style.pointerEvents = "none";
-
-    // enableElement(randomBtn);
-    // enableElement(levelSelect);
-    // enableElement(solutionBtn);
-    // enableElement(document.getElementById("picture"));
-    // disableElement(resetBtn);
-    // disableElement(saveBtn);
-
-
-
-    // this.resetTimer();
-
-    // enableElement(randomBtn);
-    // enableElement(levelSelect);
-    // enableElement(solutionBtn);
-    // enableElement(document.getElementById("picture"));
-    // disableElement(resetBtn);
-    // disableElement(saveBtn);
-
-    // this.matrixSection.style.pointerEvents = "";
-    // this.matrixSection.addEventListener(
-    //   "click",
-    //   () => {
-    //     this.setTimer();
-    //     this.gameStart();
-    //   },
-    //   { once: true }
-    // );
-
-
-    // disableElement(randomBtn);
-    // disableElement(levelSelect);
-    // disableElement(document.getElementById("picture"));
-    // enableElement(resetBtn);
-    // enableElement(saveBtn);
-    // enableElement(solutionBtn);

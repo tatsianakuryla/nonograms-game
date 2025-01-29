@@ -342,7 +342,7 @@ export const gameState = {
   },
 
   isGameWon() {
-    return JSON.stringify(this.matrix === this.currentUserMatrix);
-  },
+    return JSON.stringify(this.matrix) === JSON.stringify(this.currentUserMatrix);
+  }
 
 };

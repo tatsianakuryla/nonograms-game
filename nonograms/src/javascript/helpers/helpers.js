@@ -28,18 +28,6 @@ export function removeClass(element, className) {
   element.classList.remove(className);
 }
 
-export function renderRandomlySelectedOption(select) {
-  let selectedIndex = 0;
-  let compareWith = select === "level" ? gameState.level : gameState.matrixName;
-  Array.from(document.getElementsByClassName(`game__${select}-option`)).forEach(
-    (option, index) => {
-      option.value.replaceAll(' ', '-') === compareWith ? (selectedIndex = index) : selectedIndex;
-    }
-  );
-  document.getElementById(select).selectedIndex = selectedIndex;
-  selectedIndex = 0;
-}
-
 export function disableElement(element) {
   if (!element.disabled) {
     element.disabled = 'true';

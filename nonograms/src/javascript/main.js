@@ -1,16 +1,6 @@
 import { renderStartGameWindow } from "./dom/startGameWindow.js";
 import { gameState } from "./gameState/gameState.js";
 import { gameStateShow } from "./gameStateShow/gameStateShow.js";
-import {
-  renderPictureSelect,
-  addEventListenerPictureSelect,
-} from "./dom/pictureChoice.js";
-import { renderMatrixSection } from "./dom/matrix.js";
-import {
-  renderRandomlySelectedOption,
-  enableElement,
-  disableElement,
-} from "./helpers/helpers.js";
 
 renderStartGameWindow();
 
@@ -21,30 +11,27 @@ const recordsBtn = document.getElementById("game__btn-manage_results");
 const continuesBtn = document.getElementById("game__btn-manage_continue");
 export const resetBtn = document.getElementById("game__btn-manage_reset");
 export const levelSelect = document.getElementById("level");
-const levelOptions = Array.from(
-  document.getElementsByClassName(`game__level-option`)
-);
 export const timer = document.getElementById("game__timer");
+const modeBtn = document.getElementById("game__mode-btn");
 
+modeBtn.addEventListener('click', () => {
+  document.documentElement.classList.toggle('dark-mode');
+  modeBtn.classList.toggle('game__mode-btn-dark');
+});
 
 levelSelect.addEventListener("change", (event) => {
   gameState.setLevel(event.target.value);
-  renderPictureSelect(gameState.level);
-  renderMatrixSection();
+  gameStateShow.levelChange();
+
   gameStateShow.picture.addEventListener("change", (event) => {
     gameState.setMatrix(event.target.value);
-    renderMatrixSection();
-    addEventListenerPictureSelect();
+    gameStateShow.pictureChange();
   });
 });
 
 randomBtn.addEventListener("click", () => {
   gameState.setRandomGame();
-  renderMatrixSection();
-  renderRandomlySelectedOption("level");
-  renderPictureSelect(gameState.level);
-  renderRandomlySelectedOption("picture");
-  randomBtn.blur();
+  gameStateShow.showRandomGame();
 });
 
 resetBtn.addEventListener("click", () => {
@@ -55,3 +42,5 @@ resetBtn.addEventListener("click", () => {
 solutionBtn.addEventListener("click", () => {
   gameStateShow.showSolution();
 });
+
+
