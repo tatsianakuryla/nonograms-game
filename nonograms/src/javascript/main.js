@@ -7,7 +7,6 @@ renderStartGameWindow();
 export const randomBtn = document.getElementById("game__btn-manage_random");
 export const solutionBtn = document.getElementById("game__btn-manage_solution");
 export const saveBtn = document.getElementById("game__btn-manage_save");
-const recordsBtn = document.getElementById("game__btn-manage_results");
 const continuesBtn = document.getElementById("game__btn-manage_continue");
 export const resetBtn = document.getElementById("game__btn-manage_reset");
 export const levelSelect = document.getElementById("level");

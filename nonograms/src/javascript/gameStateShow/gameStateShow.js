@@ -1,3 +1,4 @@
+import { renderGameResults } from "../dom/bestResults.js";
 import { renderMatrixSection } from "../dom/matrix.js";
 import { addEventListenerPictureSelect, renderPictureSelect } from "../dom/pictureChoice.js";
 import { gameState } from "../gameState/gameState.js";
@@ -16,9 +17,9 @@ import {
   timer,
 } from "../main.js";
 
-let seconds = 0;
-let minutes = 0;
-let interval = 0;
+export let seconds = 0;
+export let minutes = 0;
+export let interval = 0;
 
 function setTimer() {
   seconds++;
@@ -34,9 +35,6 @@ export const gameStateShow = {
   cells: [],
   matrixSection: [],
   picture: "",
-  resultMinutes: 0,
-  resultSeconds: 0,
-  resultTimeS: 0,
 
   getMatrixCells() {
     this.cells = Array.from(
@@ -71,7 +69,8 @@ export const gameStateShow = {
           }
         }
         if (gameState.isGameWon()) {
-          gameStateShow.gameWon();
+          gameState.gameWon();
+          this.gameWon();
         }
       });
       cell.addEventListener("contextmenu", (event) => {
@@ -89,7 +88,8 @@ export const gameStateShow = {
           }
         }
         if (gameState.isGameWon()) {
-          gameStateShow.gameWon();
+          gameState.gameWon();
+          this.gameWon();
         }
       });
     });
@@ -141,19 +141,13 @@ export const gameStateShow = {
   },
 
   gameWon() {
-    this.resultMinutes = minutes;
-    this.resultSeconds = seconds;
-    this.resultTimeS = this.resultMinutes * 60 + this.resultSeconds;
-
     this.resetTimer();
-    console.log(`You are a winer! Your result: ${this.resultTimeS}s`);
-
     enableElement(randomBtn);
     enableElement(this.picture);
     enableElement(levelSelect);
     disableElement(solutionBtn);
     this.matrixSection.style.pointerEvents = "none";
-    resetBtn.focus();
+    renderGameResults();
   },
 
   resetGame() {
@@ -210,7 +204,8 @@ export const gameStateShow = {
 
     renderPictureSelect(gameState.level);
 
-    Array.from(this.picture).forEach((option, index) => {
+    Array.from(document.getElementById('picture')).forEach((option, index) => {
+      console.log(option.value, gameState.matrixName);
       option.value.replaceAll(" ", "-") === gameState.matrixName
         ? (this.picture.selectedIndex = index)
         : this.picture.selectedIndex;
@@ -230,7 +225,7 @@ export const gameStateShow = {
       this.gameStart();
     };
 
-    this.matrixSection.addEventListener("mousedown", this.gameStartHandler);
+    this.matrixSection.addEventListener("mousedown", this.gameStartHandler, { once: true });
   }
 
 };

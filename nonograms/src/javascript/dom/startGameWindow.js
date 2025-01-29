@@ -11,11 +11,15 @@ import {
 } from "./pictureChoice.js";
 import { getButtons } from "./buttons.js";
 import { getTimer } from "./timer.js";
+import {
+  getGameResults,
+  getResultsHeader,
+  renderGameResults,
+} from "./bestResults.js";
 
 const MANAGE_BUTTONS_TASKS = [
   "random",
   "solution",
-  "results",
   "continue",
   "reset",
   "save",
@@ -26,7 +30,6 @@ const MANAGE_BUTTON_TEXTS = {
   continue: "Continue last game",
   solution: "Solution",
   reset: "Reset game",
-  results: "Records",
   save: "Save game",
 };
 
@@ -36,6 +39,7 @@ export function renderStartGameWindow() {
   renderPictureSelect();
   addEventListenerPictureSelect();
   renderMatrixSection();
+  renderGameResults();
 }
 
 function getMain() {
@@ -83,6 +87,11 @@ function getGameAside() {
     gameAside.append(getButtons(btnTask, MANAGE_BUTTON_TEXTS));
   });
 
-  gameAside.append(getLevelChoiceSection(), getPictureChoiceSection());
+  gameAside.append(
+    getLevelChoiceSection(),
+    getPictureChoiceSection(),
+    getResultsHeader(),
+    getGameResults()
+  );
   return gameAside;
 }

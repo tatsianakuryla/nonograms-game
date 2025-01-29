@@ -1,4 +1,5 @@
 import { textToCapitalCase } from "../helpers/helpers.js";
+import { seconds, minutes } from "../gameStateShow/gameStateShow.js";
 
 export const easyMatrixSet = new Map([
   [
@@ -24,7 +25,7 @@ export const easyMatrixSet = new Map([
   ],
 
   [
-    "mashroom",
+    "robot",
     [
       [0, 1, 1, 1, 0],
       [1, 1, 1, 1, 1],
@@ -261,6 +262,9 @@ export const gameState = {
   matrixSet: LEVELS.get("easy"),
   matrix: Array.from(easyMatrixSet.values())[0],
   matrixName: textToCapitalCase(Array.from(easyMatrixSet.keys())[0]),
+  resultMinutes: 0,
+  resultSeconds: 0,
+  resultTimeS: 0,
   currentUserMatrix: [],
   hintsArrayTop: [],
   hintsArrayLeft: [],
@@ -311,17 +315,27 @@ export const gameState = {
     this.level = newLevel;
     this.matrixSet = LEVELS.get(newLevel);
     this.matrix = Array.from(this.matrixSet.values())[0];
-    this.matrixName = textToCapitalCase(Array.from(this.matrixSet.keys())[0]);
+    this.matrixName = this.getMatrixName();
     this.hintsArrayLeft = this.setHintsArray("left");
     this.hintsArrayTop = this.setHintsArray("top");
     this.resetMatrix();
   },
 
   setMatrix(key) {
-    this.matrix = this.matrixSet.get(key.toLowerCase().replaceAll(' ', '-'));
+    this.matrix = this.matrixSet.get(key.toLowerCase().replaceAll(" ", "-"));
+    this.matrixName = this.getMatrixName();
     this.hintsArrayLeft = this.setHintsArray("left");
     this.hintsArrayTop = this.setHintsArray("top");
     this.resetMatrix();
+    console.log(gameState);
+  },
+
+  getMatrixName() {
+    for (const [name, matrix] of this.matrixSet.entries()) {
+      if (JSON.stringify(matrix) === JSON.stringify(this.matrix)) {
+        return name;
+      }
+    }
   },
 
   setRandomGame() {
@@ -335,14 +349,28 @@ export const gameState = {
 
     this.level = Array.from(LEVELS.keys())[randomLevelIndex];
     this.matrix = Array.from(this.matrixSet.values())[randomMatrixIndex];
-    this.matrixName = textToCapitalCase(Array.from(this.matrixSet.keys())[randomMatrixIndex]);
+    this.matrixName = textToCapitalCase(
+      Array.from(this.matrixSet.keys())[randomMatrixIndex]
+    );
     this.hintsArrayLeft = this.setHintsArray("left");
     this.hintsArrayTop = this.setHintsArray("top");
     this.resetMatrix();
   },
 
   isGameWon() {
-    return JSON.stringify(this.matrix) === JSON.stringify(this.currentUserMatrix);
-  }
+    return (
+      JSON.stringify(this.matrix) === JSON.stringify(this.currentUserMatrix)
+    );
+  },
 
+  gameWon() {
+    this.resultMinutes = minutes;
+    this.resultSeconds = seconds;
+    this.resultTimeS = this.resultMinutes * 60 + this.resultSeconds;
+    records.push({
+      name: this.matrixName,
+      level: this.level,
+      completeTime: this.resultTimeS,
+    });
+  },
 };

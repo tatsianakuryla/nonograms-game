@@ -23,10 +23,6 @@
 }
 
 
-:root.dark-mode .black-cell {
-    background-color: var(--white);
-}
-
 html {
     box-sizing: border-box;
     font-size: 16px;
@@ -75,7 +71,6 @@ h4 {
 }
 
 .game__container {
-    position: relative;
     flex-direction: column;
     gap: 20px;
     padding: 5px 20px;
@@ -91,8 +86,9 @@ h4 {
 }
 
 .game__wrapper {
+    position: relative;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     gap: 10px;
 }
 
@@ -151,30 +147,33 @@ h4 {
     transform: scale(0.98);
 }
 
+/* results */
+
 .game__records-header {
-    font-size: 1.4rem;
+    font-size: 1rem;
     text-align: center;
 }
 
 .game__records-list {
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
     text-align: center;
 }
 
 .game__record-item {
     gap: 5px;
-    padding: 10px 10px 10px 20px;
-    border-radius: 12px;
-    font-size: 0.8-rem;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: underline;
 }
 
 /* mode */
 
 .game__mode-btn {
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: -50px;
+    left: 40px;
     padding: 0;
     border: none;
     border-radius: 100px;
@@ -243,6 +242,7 @@ h4 {
 .game__matrix-element {
     position: relative;
     cursor: pointer;
+    background-color: var(--white);
     transition: background-color 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
@@ -329,8 +329,8 @@ h4 {
 
 .game__timer {
     position: absolute;
-    top: 20px;
-    right: 25px;
+    top: -50px;
+    right: 40px;
     align-items: center;
     justify-content: center;
     padding: 5px 7px;
