@@ -1,6 +1,7 @@
 import { renderStartGameWindow } from "./dom/startGameWindow.js";
 import { gameState } from "./gameState/gameState.js";
 import { gameStateShow } from "./gameStateShow/gameStateShow.js";
+import { clearLocalStorage } from "./localStorage/localStorage.js";
 
 renderStartGameWindow();
 
@@ -42,4 +43,4 @@ solutionBtn.addEventListener("click", () => {
   gameStateShow.showSolution();
 });
 
-
+// clearLocalStorage();

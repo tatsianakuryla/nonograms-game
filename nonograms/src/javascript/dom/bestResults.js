@@ -1,5 +1,8 @@
-import { records } from "../gameState/gameState.js";
-import { createElementWithClassId, textToCapitalCase } from "../helpers/helpers.js";
+import { results } from "../gameState/gameState.js";
+import {
+  createElementWithClassId,
+  textToCapitalCase,
+} from "../helpers/helpers.js";
 
 export function getGameResults() {
   return createElementWithClassId(
@@ -12,11 +15,10 @@ export function getGameResults() {
 export function renderGameResults() {
   const gameRecordsList = document.getElementById("game__records-list");
   gameRecordsList.innerHTML = "";
-  if (!records.length) {
+  if (!results.length) {
     gameRecordsList.textContent = "No results available.";
   } else {
-    records.sort((a, b) => a.completeTime - b.completeTime);
-    records.forEach((record) => {
+    results.forEach((record) => {
       gameRecordsList.append(getResultItem(record));
     });
   }
@@ -30,13 +32,18 @@ export function getResultsHeader() {
   return recordsHeader;
 }
 
-function getResultItem({ name, level, completeTime }) {
+function getResultItem({ name, level, resultMinutes, resultSeconds }) {
   const recordItem = createElementWithClassId("li", [
     "game__record-item",
     "flex",
   ]);
- 
-  recordItem.textContent = textToCapitalCase(name).replaceAll('-', ' ') + ' - Level ' + textToCapitalCase(level)+ ' - ' + completeTime + 's';
+
+  recordItem.textContent =
+    textToCapitalCase(name).replaceAll("-", " ") +
+    " - Level " +
+    textToCapitalCase(level) +
+    " - " +
+    resultMinutes + ':' + resultSeconds;
 
   return recordItem;
 }

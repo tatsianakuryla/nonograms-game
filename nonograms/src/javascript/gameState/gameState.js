@@ -1,5 +1,6 @@
 import { textToCapitalCase } from "../helpers/helpers.js";
 import { seconds, minutes } from "../gameStateShow/gameStateShow.js";
+import { getDataFromLocalStorage, saveDataToLocalStorage } from "../localStorage/localStorage.js";
 
 export const easyMatrixSet = new Map([
   [
@@ -249,22 +250,13 @@ export const LEVELS = new Map([
   ["hard", hardMatrixSet],
 ]);
 
-export const records = [
-  // {
-  //   name: 'Star',
-  //   level: 'easy',
-  //   completeTime: 1000,
-  // },
-];
+export let results = getDataFromLocalStorage("results") ?? [];
 
 export const gameState = {
   level: "easy",
   matrixSet: LEVELS.get("easy"),
   matrix: Array.from(easyMatrixSet.values())[0],
   matrixName: textToCapitalCase(Array.from(easyMatrixSet.keys())[0]),
-  resultMinutes: 0,
-  resultSeconds: 0,
-  resultTimeS: 0,
   currentUserMatrix: [],
   hintsArrayTop: [],
   hintsArrayLeft: [],
@@ -364,13 +356,14 @@ export const gameState = {
   },
 
   gameWon() {
-    this.resultMinutes = minutes;
-    this.resultSeconds = seconds;
-    this.resultTimeS = this.resultMinutes * 60 + this.resultSeconds;
-    records.push({
+    results.push({
       name: this.matrixName,
       level: this.level,
-      completeTime: this.resultTimeS,
+      resultMinutes: String(minutes).padStart(2, '0'),
+      resultSeconds: String(seconds).padStart(2, '0'),
+      totalResults: minutes * 60 + seconds,
     });
+    results = results.sort((a, b) => a.totalResults - b.totalResults).filter((_, index) => index < 5);
+    saveDataToLocalStorage('results', results);
   },
 };
