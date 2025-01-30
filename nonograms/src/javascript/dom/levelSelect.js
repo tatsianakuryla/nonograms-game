@@ -1,5 +1,5 @@
 import { createElementWithClassId, textToCapitalCase } from "../helpers/helpers.js";
-import { LEVELS } from "../gameState/gameState.js";
+import { gameState, LEVELS } from "../gameState/gameState.js";
 
 export function getLevelChoiceSection() {
   const selectLevelSection = createElementWithClassId('div', ['game__level-section', 'flex']);
@@ -38,4 +38,15 @@ function getLevelOption(level) {
   levelOption.textContent = textToCapitalCase(level);
 
   return levelOption;
+}
+
+export function renderSelect(selectId) {
+  const select = document.getElementById(selectId);
+  const comparedValue = selectId === 'picture' ? gameState.matrixName : gameState.level;
+  Array.from(select).forEach((option, index) => {
+    console.log();
+    option.value.replaceAll(" ", "-") === comparedValue
+      ? (select.selectedIndex = index)
+      : select.selectedIndex;
+  });
 }

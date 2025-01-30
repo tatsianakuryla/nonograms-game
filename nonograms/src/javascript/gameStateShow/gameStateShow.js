@@ -1,7 +1,11 @@
-import { renderGameResults } from "../dom/bestResults.js";
+import { renderGameResults } from "../dom/results.js";
+import { renderSelect } from "../dom/levelSelect.js";
 import { renderMatrixSection } from "../dom/matrix.js";
-import { addEventListenerPictureSelect, renderPictureSelect } from "../dom/pictureChoice.js";
-import { gameState } from "../gameState/gameState.js";
+import {
+  addEventListenerPictureSelect,
+  renderPictureSelect,
+} from "../dom/pictureSelect.js";
+import { gameState, savedGameData } from "../gameState/gameState.js";
 import {
   enableElement,
   disableElement,
@@ -15,6 +19,9 @@ import {
   saveBtn,
   solutionBtn,
   timer,
+  continueBtn,
+  winModal,
+  winModalText,
 } from "../main.js";
 
 export let seconds = 0;
@@ -83,7 +90,11 @@ export const gameStateShow = {
               cell.classList.remove("black-cell");
               gameState.currentUserMatrix[i][j] = 0;
               cell.classList.toggle("cross");
-              //TODO - cross
+              gameState.currentUserMatrix[i][j] = cell.classList.contains(
+                "cross"
+              )
+                ? "0"
+                : 0;
             }
           }
         }
@@ -95,7 +106,7 @@ export const gameStateShow = {
     });
   },
 
-  setTimer() {
+  startTimer() {
     interval = setInterval(setTimer, 1000);
   },
 
@@ -130,7 +141,7 @@ export const gameStateShow = {
   },
 
   gameStart() {
-    this.setTimer();
+    this.startTimer();
 
     disableElement(randomBtn);
     disableElement(this.picture);
@@ -146,8 +157,17 @@ export const gameStateShow = {
     enableElement(this.picture);
     enableElement(levelSelect);
     disableElement(solutionBtn);
+    disableElement(saveBtn);
     this.matrixSection.style.pointerEvents = "none";
     renderGameResults();
+    setTimeout(() => {
+      removeClass(winModal, 'hidden');
+      addClass(winModal, 'show');
+      winModal.textContent = `You have solve the nonogram in ${gameState.resultSeconds}s`;
+    }, 400);
+    setTimeout(() => {
+      removeClass(winModal, 'show');
+    }, 3000);
   },
 
   resetGame() {
@@ -195,26 +215,17 @@ export const gameStateShow = {
     enableElement(this.picture);
     enableElement(levelSelect);
     disableElement(resetBtn);
-
-    Array.from(levelSelect).forEach((option, index) => {
-      option.value.replaceAll(" ", "-") === gameState.level
-        ? (levelSelect.selectedIndex = index)
-        : levelSelect.selectedIndex;
-    });
-
+    renderSelect("level");
     renderPictureSelect(gameState.level);
-
-    Array.from(document.getElementById('picture')).forEach((option, index) => {
-      console.log(option.value, gameState.matrixName);
-      option.value.replaceAll(" ", "-") === gameState.matrixName
-        ? (this.picture.selectedIndex = index)
-        : this.picture.selectedIndex;
-    });
+    renderSelect("picture");
   },
 
   matrixSectionEventListener() {
     if (this.gameStartHandler) {
-      this.matrixSection.removeEventListener("mousedown", this.gameStartHandler);
+      this.matrixSection.removeEventListener(
+        "mousedown",
+        this.gameStartHandler
+      );
     }
 
     this.gameStartHandler = (event) => {
@@ -225,7 +236,42 @@ export const gameStateShow = {
       this.gameStart();
     };
 
-    this.matrixSection.addEventListener("mousedown", this.gameStartHandler, { once: true });
-  }
+    this.matrixSection.addEventListener("mousedown", this.gameStartHandler, {
+      once: true,
+    });
+  },
 
+  showSavedMatrix() {
+    this.cells.forEach((cell) => {
+      const cellI = cell.getAttribute("data-i");
+      const cellJ = cell.getAttribute("data-j");
+      if (gameState.currentUserMatrix[cellI][cellJ] === 1) {
+        addClass(cell, "black-cell");
+      } else if (gameState.currentUserMatrix[cellI][cellJ] === "0") {
+        addClass(cell, "cross");
+      } else {
+        removeClass(cell, "black-cell");
+        removeClass(cell, "cross");
+      }
+    });
+  },
+
+  saveGame() {
+    enableElement(continueBtn);
+  },
+
+  continueGame() {
+    this.getMatrixCells();
+    this.getMatrixSection();
+    this.resetTimer();
+    seconds = savedGameData.seconds;
+    minutes = savedGameData.minutes;
+    timer.textContent =
+      String(minutes).padStart(2, "0") + " : " + String(seconds).padStart(2, 0);
+    renderSelect("level");
+    renderPictureSelect(gameState.level);
+    renderSelect("picture");
+    renderMatrixSection();
+    this.showSavedMatrix();
+  },
 };

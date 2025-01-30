@@ -2,20 +2,21 @@ import { createElementWithClassId } from "../helpers/helpers.js";
 
 import { gameState } from "../gameState/gameState.js";
 import { getModeBtn } from "./mode.js";
-import { getLevelChoiceSection } from "./levelChoice.js";
+import { getLevelChoiceSection } from "./levelSelect.js";
 import { getMatrixSection, renderMatrixSection } from "./matrix.js";
 import {
   getPictureChoiceSection,
   renderPictureSelect,
   addEventListenerPictureSelect,
-} from "./pictureChoice.js";
+} from "./pictureSelect.js";
 import { getButtons } from "./buttons.js";
 import { getTimer } from "./timer.js";
 import {
   getGameResults,
   getResultsHeader,
   renderGameResults,
-} from "./bestResults.js";
+} from "./results.js";
+import { getWinModal } from "./modals.js";
 
 const MANAGE_BUTTONS_TASKS = [
   "random",
@@ -50,7 +51,7 @@ function getMain() {
 
 function getGameSection() {
   const gameSection = createElementWithClassId("section", ["game", "flex"]);
-  gameSection.append(getGameContainer());
+  gameSection.append(getGameContainer(),  getWinModal());
   return gameSection;
 }
 

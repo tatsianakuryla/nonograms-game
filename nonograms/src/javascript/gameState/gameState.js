@@ -1,6 +1,6 @@
 import { textToCapitalCase } from "../helpers/helpers.js";
 import { seconds, minutes } from "../gameStateShow/gameStateShow.js";
-import { getDataFromLocalStorage, saveDataToLocalStorage } from "../localStorage/localStorage.js";
+import { getDataFromLocalStorage, removeDataFromLocalStorage, saveDataToLocalStorage } from "../localStorage/localStorage.js";
 
 export const easyMatrixSet = new Map([
   [
@@ -251,6 +251,7 @@ export const LEVELS = new Map([
 ]);
 
 export let results = getDataFromLocalStorage("results") ?? [];
+export let savedGameData = getDataFromLocalStorage('savedGame') ?? null;
 
 export const gameState = {
   level: "easy",
@@ -260,6 +261,7 @@ export const gameState = {
   currentUserMatrix: [],
   hintsArrayTop: [],
   hintsArrayLeft: [],
+  resultSeconds: 0,
 
   setHintsArray(location) {
     let hintsArray = [];
@@ -319,7 +321,6 @@ export const gameState = {
     this.hintsArrayLeft = this.setHintsArray("left");
     this.hintsArrayTop = this.setHintsArray("top");
     this.resetMatrix();
-    console.log(gameState);
   },
 
   getMatrixName() {
@@ -356,6 +357,7 @@ export const gameState = {
   },
 
   gameWon() {
+    this.resultSeconds = String(minutes * 60 + seconds).padStart(2, '0');
     results.push({
       name: this.matrixName,
       level: this.level,
@@ -365,5 +367,34 @@ export const gameState = {
     });
     results = results.sort((a, b) => a.totalResults - b.totalResults).filter((_, index) => index < 5);
     saveDataToLocalStorage('results', results);
+  },
+
+  saveGame() {
+    savedGameData = {
+      level: this.level,
+      matrixSet: this.matrixSet,
+      matrix: this.matrix,
+      matrixName: this.matrixName,
+      currentUserMatrix: this.currentUserMatrix,
+      hintsArrayTop: this.hintsArrayTop,
+      hintsArrayLeft: this.hintsArrayLeft,
+      minutes: minutes,
+      seconds: seconds,
+      resultMinutes: String(this.minutes).padStart(2, '0'),
+      resultSeconds: String(this.seconds).padStart(2, '0'),
+      totalResults: this.minutes * 60 + this.seconds,
+    };
+    saveDataToLocalStorage('savedGame', savedGameData);
+    savedGameData = getDataFromLocalStorage('savedGame');
+  },
+
+  continueGame() {
+    this.level = savedGameData.level;
+    this.matrixSet = savedGameData.matrixSet;
+    this.matrix = savedGameData.matrix;
+    this.matrixName = savedGameData.matrixName;
+    this.currentUserMatrix = savedGameData.currentUserMatrix;
+    this.hintsArrayTop = savedGameData.hintsArrayTop;
+    this.hintsArrayLeft = savedGameData.hintsArrayLeft;
   },
 };

@@ -1,18 +1,21 @@
 import { renderStartGameWindow } from "./dom/startGameWindow.js";
 import { gameState } from "./gameState/gameState.js";
 import { gameStateShow } from "./gameStateShow/gameStateShow.js";
-import { clearLocalStorage } from "./localStorage/localStorage.js";
+import { addClass } from "./helpers/helpers.js";
 
 renderStartGameWindow();
 
 export const randomBtn = document.getElementById("game__btn-manage_random");
 export const solutionBtn = document.getElementById("game__btn-manage_solution");
 export const saveBtn = document.getElementById("game__btn-manage_save");
-const continuesBtn = document.getElementById("game__btn-manage_continue");
+export const continueBtn = document.getElementById("game__btn-manage_continue");
 export const resetBtn = document.getElementById("game__btn-manage_reset");
 export const levelSelect = document.getElementById("level");
 export const timer = document.getElementById("game__timer");
 const modeBtn = document.getElementById("game__mode-btn");
+const closeModalBtn = document.getElementById('win-modal__close-btn');
+export const winModal = document.getElementById('win-modal');
+export const winModalText = document.getElementById('win-modal__text');
 
 modeBtn.addEventListener('click', () => {
   document.documentElement.classList.toggle('dark-mode');
@@ -43,4 +46,16 @@ solutionBtn.addEventListener("click", () => {
   gameStateShow.showSolution();
 });
 
-// clearLocalStorage();
+saveBtn.addEventListener('click', () => {
+  gameState.saveGame();
+  gameStateShow.saveGame();
+});
+
+continueBtn.addEventListener('click', () => {
+  gameState.continueGame();
+  gameStateShow.continueGame();
+});
+
+closeModalBtn.addEventListener('click', () => {
+  addClass(winModal, 'hidden');
+})

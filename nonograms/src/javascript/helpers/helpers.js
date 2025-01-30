@@ -1,5 +1,3 @@
-import { gameState } from "../gameState/gameState.js";
-
 export function createElementWithClassId(tag, classList = [], id = null) {
   const element = document.createElement(tag);
   classList.forEach(className =>  element.classList.add(className));
