@@ -1,4 +1,4 @@
-import { renderGameResults } from "../dom/results.js";
+import { renderGameResults } from "../dom/modals/resultsModal.js";
 import { renderSelect } from "../dom/levelSelect.js";
 import { renderMatrixSection } from "../dom/matrix.js";
 import {
@@ -21,7 +21,6 @@ import {
   timer,
   continueBtn,
   winModal,
-  winModalText,
 } from "../main.js";
 
 export let seconds = 0;
@@ -59,7 +58,8 @@ export const gameStateShow = {
 
   cellsEventListener() {
     this.cells.forEach((cell) => {
-      cell.addEventListener("click", () => {
+      cell.addEventListener("click", (event) => {
+        event.preventDefault();
         const iCell = +cell.getAttribute("data-i");
         const jCell = +cell.getAttribute("data-j");
         for (let i = 0; i < gameState.matrix.length; i++) {
@@ -161,12 +161,11 @@ export const gameStateShow = {
     this.matrixSection.style.pointerEvents = "none";
     renderGameResults();
     setTimeout(() => {
-      removeClass(winModal, 'hidden');
-      addClass(winModal, 'show');
+      addClass(winModal, "show");
       winModal.textContent = `You have solve the nonogram in ${gameState.resultSeconds}s`;
     }, 400);
     setTimeout(() => {
-      removeClass(winModal, 'show');
+      removeClass(winModal, "show");
     }, 3000);
   },
 
@@ -207,6 +206,8 @@ export const gameStateShow = {
     disableElement(saveBtn);
     enableElement(resetBtn);
     enableElement(randomBtn);
+    enableElement(this.picture);
+    enableElement(levelSelect);
   },
 
   showRandomGame() {
@@ -218,6 +219,7 @@ export const gameStateShow = {
     renderSelect("level");
     renderPictureSelect(gameState.level);
     renderSelect("picture");
+    this.resetTimer();
   },
 
   matrixSectionEventListener() {
@@ -273,5 +275,8 @@ export const gameStateShow = {
     renderSelect("picture");
     renderMatrixSection();
     this.showSavedMatrix();
+    enableElement(this.picture);
+    enableElement(levelSelect);
+    enableElement(resetBtn);
   },
 };

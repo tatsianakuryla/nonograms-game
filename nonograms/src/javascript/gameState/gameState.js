@@ -351,8 +351,11 @@ export const gameState = {
   },
 
   isGameWon() {
+    const newMatrix = this.currentUserMatrix.map((row) => 
+      row.map((elem) => (elem === '0' ? 0 : elem))
+    );
     return (
-      JSON.stringify(this.matrix) === JSON.stringify(this.currentUserMatrix)
+      JSON.stringify(this.matrix) === JSON.stringify(newMatrix)
     );
   },
 
@@ -393,7 +396,7 @@ export const gameState = {
     this.matrixSet = savedGameData.matrixSet;
     this.matrix = savedGameData.matrix;
     this.matrixName = savedGameData.matrixName;
-    this.currentUserMatrix = savedGameData.currentUserMatrix;
+    this.currentUserMatrix = getDataFromLocalStorage('savedGame').currentUserMatrix;
     this.hintsArrayTop = savedGameData.hintsArrayTop;
     this.hintsArrayLeft = savedGameData.hintsArrayLeft;
   },

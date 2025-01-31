@@ -12,11 +12,10 @@ import {
 import { getButtons } from "./buttons.js";
 import { getTimer } from "./timer.js";
 import {
-  getGameResults,
-  getResultsHeader,
+  getGameResultsModal,
   renderGameResults,
-} from "./results.js";
-import { getWinModal } from "./modals.js";
+} from "./modals/resultsModal.js";
+import { getWinModal } from "./modals/winModal.js";
 
 const MANAGE_BUTTONS_TASKS = [
   "random",
@@ -24,6 +23,7 @@ const MANAGE_BUTTONS_TASKS = [
   "continue",
   "reset",
   "save",
+  "results",
 ];
 
 const MANAGE_BUTTON_TEXTS = {
@@ -32,6 +32,7 @@ const MANAGE_BUTTON_TEXTS = {
   solution: "Solution",
   reset: "Reset game",
   save: "Save game",
+  results: "Best results",
 };
 
 export function renderStartGameWindow() {
@@ -51,7 +52,7 @@ function getMain() {
 
 function getGameSection() {
   const gameSection = createElementWithClassId("section", ["game", "flex"]);
-  gameSection.append(getGameContainer(),  getWinModal());
+  gameSection.append(getGameContainer(), getWinModal(), getGameResultsModal());
   return gameSection;
 }
 
@@ -72,7 +73,9 @@ function getGameContainer() {
     ["game__wrapper", "flex"],
     "game__wrapper"
   );
-  wrapper.append(getMatrixSection(), getGameAside(), getModeBtn(), getTimer());
+
+  const showAsideBtn = createElementWithClassId('button', ['game__show-aside-button'], 'game__show-aside-button');
+  wrapper.append(getGameAside(), getMatrixSection(), getModeBtn(), getTimer(), showAsideBtn);
   gameContainer.append(heading, wrapper);
   return gameContainer;
 }
@@ -84,15 +87,11 @@ function getGameAside() {
     "game__aside"
   );
 
+  gameAside.append(getLevelChoiceSection(), getPictureChoiceSection());
+
   MANAGE_BUTTONS_TASKS.forEach((btnTask) => {
     gameAside.append(getButtons(btnTask, MANAGE_BUTTON_TEXTS));
   });
 
-  gameAside.append(
-    getLevelChoiceSection(),
-    getPictureChoiceSection(),
-    getResultsHeader(),
-    getGameResults()
-  );
   return gameAside;
 }

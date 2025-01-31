@@ -1,0 +1,143 @@
+@media (max-width: 1140px) {
+
+    .game__container {
+        padding: 5px 20px;
+    }
+
+    .game__matrix-element,
+    .game__hint-top,
+    .game__hint-left {
+        height: 25px;
+        width: 25px;
+    }
+}
+
+@media (max-width: 1140px) {
+
+    .game__container {
+        padding: 5px 20px;
+    }
+
+    .game__matrix-element,
+    .game__hint-top,
+    .game__hint-left {
+        height: 25px;
+        width: 25px;
+    }
+}
+
+@media (max-width: 860px) {
+
+    .game__matrix-element,
+    .game__hint-top,
+    .game__hint-left {
+        height: 20px;
+        width: 20px;
+    }
+
+
+    .game__levels-select,
+    .game__level-option,
+    .game__picture-select,
+    .game__picture-option,
+    .game__btn-manage {
+        padding: 7px;
+        font-size: 0.8rem;
+    }
+
+    .game__wrapper {
+        gap: 10px;
+    }
+}
+
+@media (max-width: 680px) {
+    .game__container {
+        padding: 5px 10px;
+    }
+
+    .game__wrapper{
+        position: relative;
+        min-height: 430px;
+        gap: 0;
+    }
+
+    .game__show-aside-button {
+        height: 36px;
+        width: 36px;
+        transform: translateX(0);
+        transform: rotate(180deg);
+        visibility: visible;
+    }
+
+    .game__aside {
+        position: absolute;
+        left: 0;
+        padding: 20px 20px 20px 30px;
+        border-radius: var(--border-radius);
+        width: 400px;
+        height: 100%;
+        background-color: var(--white);
+        justify-content: center;
+        box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3);
+        z-index: 1002;
+        transform: translateX(-110%);
+        visibility: hidden;
+        transition: transform 0.4s ease-in-out, visibility 0.2s ease-in-out;
+    }
+
+    .game__aside.show {
+        transform: translateX(0);
+        visibility: visible;
+    }
+
+    .game__matrix-section {
+        width: 100%;
+    }
+
+    .game__timer {
+        right: 10px;
+    }
+}
+
+@media (max-width: 520px) {
+
+    .game__container {
+        gap: 10px;
+    }
+
+    .game__heading {
+        display: none;
+    }
+
+    .game__timer,
+    .game__mode-btn {
+        top: -50px;
+    }
+
+    .game__mode-btn {
+        background-size: 20px 20px;
+    }
+
+    .game__timer {
+        padding: 5px;
+        font-size: 0.8rem;
+    }
+
+    .game__matrix-element,
+    .game__hint-top,
+    .game__hint-left {
+        height: 16px;
+        width: 16px;
+    }
+
+    .game__matrix-section {
+        font-size: 0.7rem;
+    }
+
+    .game__aside {
+        width: 300px;
+    }
+
+
+
+}
