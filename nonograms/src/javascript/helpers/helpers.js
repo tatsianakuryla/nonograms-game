@@ -39,3 +39,7 @@ export function enableElement(element) {
     element.style.cursor = 'pointer';
   }
 }
+
+export function normalizeString(str) {
+    return str.replaceAll(" ", "-").toLowerCase();
+}

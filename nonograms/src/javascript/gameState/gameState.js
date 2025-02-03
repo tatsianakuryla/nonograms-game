@@ -1,68 +1,58 @@
-import { textToCapitalCase } from "../helpers/helpers.js";
+import { normalizeString, textToCapitalCase } from "../helpers/helpers.js";
 import { seconds, minutes } from "../gameStateShow/gameStateShow.js";
-import { getDataFromLocalStorage, saveDataToLocalStorage } from "../localStorage/localStorage.js";
+import {
+  getDataFromLocalStorage,
+  saveDataToLocalStorage,
+} from "../localStorage/localStorage.js";
 
-export const easyMatrixSet = new Map([
-  [
-    "scissors",
-    [
+export let results = getDataFromLocalStorage("results") ?? [];
+export let savedGameData = getDataFromLocalStorage("savedGame") ?? null;
+
+export const MATRIX_SETS = {
+  easy: {
+    scissors: [
       [0, 1, 1, 0, 0],
       [1, 1, 1, 0, 0],
       [1, 1, 1, 1, 1],
       [0, 0, 1, 0, 0],
       [0, 0, 1, 0, 0],
     ],
-  ],
 
-  [
-    "heart",
-    [
+    heart: [
       [0, 1, 0, 1, 0],
       [1, 1, 1, 1, 1],
       [1, 1, 1, 1, 1],
       [0, 1, 1, 1, 0],
       [0, 0, 1, 0, 0],
     ],
-  ],
 
-  [
-    "robot",
-    [
+    robot: [
       [0, 1, 1, 1, 0],
       [1, 1, 1, 1, 1],
       [0, 0, 1, 0, 0],
       [0, 1, 1, 1, 0],
       [0, 1, 0, 1, 0],
     ],
-  ],
 
-  [
-    "snowflake",
-    [
+    snowflake: [
       [0, 1, 0, 1, 0],
       [1, 0, 1, 0, 1],
       [0, 1, 1, 1, 0],
       [1, 0, 1, 0, 1],
       [0, 1, 0, 1, 0],
     ],
-  ],
 
-  [
-    "horse",
-    [
+    horse: [
       [1, 1, 0, 0, 0],
       [0, 1, 0, 0, 0],
       [0, 1, 0, 0, 0],
       [0, 1, 1, 1, 1],
       [0, 1, 0, 1, 1],
     ],
-  ],
-]);
+  },
 
-export const mediumMatrixSet = new Map([
-  [
-    "happy-man",
-    [
+  medium: {
+    "happy-man": [
       [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
       [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
       [0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
@@ -74,11 +64,8 @@ export const mediumMatrixSet = new Map([
       [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
       [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
     ],
-  ],
 
-  [
-    "concert-hall",
-    [
+    "concert-hall": [
       [1, 1, 1, 1, 0, 0, 1, 1, 1, 1],
       [1, 1, 1, 1, 0, 0, 1, 1, 1, 1],
       [1, 1, 1, 0, 0, 0, 0, 1, 1, 1],
@@ -90,11 +77,8 @@ export const mediumMatrixSet = new Map([
       [1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     ],
-  ],
 
-  [
-    "bird",
-    [
+    bird: [
       [0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
       [0, 1, 1, 1, 1, 1, 0, 0, 0, 0],
       [0, 1, 0, 0, 0, 1, 0, 0, 0, 0],
@@ -106,11 +90,8 @@ export const mediumMatrixSet = new Map([
       [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
       [0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
     ],
-  ],
 
-  [
-    "washbasins",
-    [
+    washbasins: [
       [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
       [1, 0, 1, 1, 0, 0, 1, 1, 0, 1],
       [1, 0, 1, 1, 0, 0, 1, 1, 0, 1],
@@ -122,11 +103,8 @@ export const mediumMatrixSet = new Map([
       [1, 1, 1, 1, 0, 0, 1, 1, 1, 1],
       [1, 1, 1, 1, 0, 0, 1, 1, 1, 1],
     ],
-  ],
 
-  [
-    "spruce-family",
-    [
+    "spruce-family": [
       [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
       [0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
       [1, 0, 0, 1, 1, 1, 1, 1, 0, 0],
@@ -138,126 +116,119 @@ export const mediumMatrixSet = new Map([
       [1, 0, 0, 0, 0, 0, 1, 1, 1, 1],
       [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     ],
-  ],
-]);
+  },
 
-export const hardMatrixSet = new Map([
-  [
-    "santa-with-gifts",
-    [
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1],
-      [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1],
-      [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0],
-      [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1],
-      [0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0],
-      [0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0],
-      [0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0],
-      [1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0],
-      [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0],
-      [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0],
-      [1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0],
-    ],
-  ],
-  [
-    "old-woman-in-farmacy",
-    [
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1],
-      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
-      [1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
-      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
-      [0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0],
-      [0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0],
-      [0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0],
-      [0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0],
-      [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1],
-      [1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1],
-      [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1],
-      [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1],
-      [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0],
-      [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0],
-      [1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0],
-    ],
-  ],
-  [
-    "house-in-the-sun",
-    [
-      [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
-      [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
-      [1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
-      [0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
-      [1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0],
-      [0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
-      [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-      [0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0],
-      [0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0],
-      [1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0],
-      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    ],
-  ],
-  [
-    "new-year-hat",
-    [
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0],
-      [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0],
-      [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1],
-      [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1],
-      [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-      [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-      [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-      [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-      [0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0],
-      [0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0],
-      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-      [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-    ],
-  ],
-  [
-    "ship",
-    [
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
-      [0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0],
-      [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0],
-      [0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0],
-      [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0],
-      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1],
-      [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
-      [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-      [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-    ],
-  ],
-]);
+  hard: {
+    "santa-with-gifts":
+      [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0],
+        [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1],
+        [0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0],
+        [0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0],
+        [0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0],
+      ],
+    "old-woman-in-farmacy":
+      [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+        [1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+        [0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0],
+        [0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0],
+        [0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1],
+        [1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1],
+        [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1],
+        [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0],
+        [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0],
+      ],
+    "house-in-the-sun":
+      [
+        [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
+        [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+        [1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
+        [0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+        [1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+        [0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
+        [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+        [0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0],
+        [0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0],
+        [1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      ],
+    "new-year-hat":
+      [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1],
+        [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1],
+        [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+        [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+        [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+        [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+        [0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0],
+        [0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+        [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+      ],
+    "ship":
+      [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+        [0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0],
+        [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0],
+        [0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0],
+        [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1],
+        [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
+        [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+      ],
+  },
+};
 
-export const LEVELS = new Map([
-  ["easy", easyMatrixSet],
-  ["medium", mediumMatrixSet],
-  ["hard", hardMatrixSet],
-]);
+function areMatrixesEqual(matrixA, matrixB) {
+  if (matrixA.length !== matrixB.length) return false;
+  for (let i = 0; i < matrixA.length; i++) {
+    if (matrixA[i].length !== matrixB[i].length) return false;
+    for (let j = 0; j < matrixA[i].length; j++) {
+      if (matrixA[i][j] !== matrixB[i][j]) return false;
+    }
+  }
+  return true;
+}
 
-export let results = getDataFromLocalStorage("results") ?? [];
-export let savedGameData = getDataFromLocalStorage('savedGame') ?? null;
 
 export const gameState = {
   level: "easy",
-  matrixSet: LEVELS.get("easy"),
-  matrix: Array.from(easyMatrixSet.values())[0],
-  matrixName: textToCapitalCase(Array.from(easyMatrixSet.keys())[0]),
+  matrixSet: MATRIX_SETS.easy,
+  matrix: Object.values(MATRIX_SETS.easy)[0],
+  matrixName: textToCapitalCase(Object.keys(MATRIX_SETS.easy)[0]),
   currentUserMatrix: [],
   hintsArrayTop: [],
   hintsArrayLeft: [],
@@ -307,8 +278,8 @@ export const gameState = {
 
   setLevel(newLevel) {
     this.level = newLevel;
-    this.matrixSet = LEVELS.get(newLevel);
-    this.matrix = Array.from(this.matrixSet.values())[0];
+    this.matrixSet = MATRIX_SETS[newLevel];
+    this.matrix = Object.values(this.matrixSet)[0];
     this.matrixName = this.getMatrixName();
     this.hintsArrayLeft = this.setHintsArray("left");
     this.hintsArrayTop = this.setHintsArray("top");
@@ -316,7 +287,7 @@ export const gameState = {
   },
 
   setMatrix(key) {
-    this.matrix = this.matrixSet.get(key.toLowerCase().replaceAll(" ", "-"));
+    this.matrix = this.matrixSet[normalizeString(key)];;
     this.matrixName = this.getMatrixName();
     this.hintsArrayLeft = this.setHintsArray("left");
     this.hintsArrayTop = this.setHintsArray("top");
@@ -324,8 +295,8 @@ export const gameState = {
   },
 
   getMatrixName() {
-    for (const [name, matrix] of this.matrixSet.entries()) {
-      if (JSON.stringify(matrix) === JSON.stringify(this.matrix)) {
+    for (const [name, matrix] of Object.entries(this.matrixSet)) {
+      if (areMatrixesEqual(matrix, this.matrix)) {
         return name;
       }
     }
@@ -333,43 +304,44 @@ export const gameState = {
 
   setRandomGame() {
     const randomLevelIndex = Math.floor(
-      Math.random() * Array.from(LEVELS.keys()).length
+      Math.random() * Object.keys(MATRIX_SETS).length
     );
-    this.matrixSet = LEVELS.get(Array.from(LEVELS.keys())[randomLevelIndex]);
+    this.level = Object.keys(MATRIX_SETS)[randomLevelIndex];
+
+    this.matrixSet = MATRIX_SETS[this.level];
+
     const randomMatrixIndex = Math.floor(
-      Math.random() * Array.from(this.matrixSet.keys()).length
+      Math.random() * Object.keys(this.matrixSet).length
     );
 
-    this.level = Array.from(LEVELS.keys())[randomLevelIndex];
-    this.matrix = Array.from(this.matrixSet.values())[randomMatrixIndex];
-    this.matrixName = textToCapitalCase(
-      Array.from(this.matrixSet.keys())[randomMatrixIndex]
-    );
+    this.matrixName = Object.keys(this.matrixSet)[randomMatrixIndex];
+    this.matrix = this.matrixSet[this.matrixName];
+
     this.hintsArrayLeft = this.setHintsArray("left");
     this.hintsArrayTop = this.setHintsArray("top");
     this.resetMatrix();
   },
 
   isGameWon() {
-    const newMatrix = this.currentUserMatrix.map((row) => 
-      row.map((elem) => (elem === '0' ? 0 : elem))
+    const newMatrix = this.currentUserMatrix.map((row) =>
+      row.map((elem) => (elem === "0" ? 0 : elem))
     );
-    return (
-      JSON.stringify(this.matrix) === JSON.stringify(newMatrix)
-    );
+    return areMatrixesEqual(this.matrix, newMatrix)
   },
 
   gameWon() {
-    this.resultSeconds = String(minutes * 60 + seconds).padStart(2, '0');
+    this.resultSeconds = String(minutes * 60 + seconds).padStart(2, "0");
     results.push({
       name: this.matrixName,
       level: this.level,
-      resultMinutes: String(minutes).padStart(2, '0'),
-      resultSeconds: String(seconds).padStart(2, '0'),
+      resultMinutes: String(minutes).padStart(2, "0"),
+      resultSeconds: String(seconds).padStart(2, "0"),
       totalResults: minutes * 60 + seconds,
     });
-    results = results.sort((a, b) => a.totalResults - b.totalResults).filter((_, index) => index < 5);
-    saveDataToLocalStorage('results', results);
+    results = results
+      .sort((a, b) => a.totalResults - b.totalResults)
+      .filter((_, index) => index < 5);
+    saveDataToLocalStorage("results", results);
   },
 
   saveGame() {
@@ -383,12 +355,12 @@ export const gameState = {
       hintsArrayLeft: this.hintsArrayLeft,
       minutes: minutes,
       seconds: seconds,
-      resultMinutes: String(this.minutes).padStart(2, '0'),
-      resultSeconds: String(this.seconds).padStart(2, '0'),
-      totalResults: this.minutes * 60 + this.seconds,
+      resultMinutes: String(this.minutes).padStart(2, "0"),
+      resultSeconds: String(this.seconds).padStart(2, "0"),
+      totalResults: minutes * 60 + seconds,
     };
-    saveDataToLocalStorage('savedGame', savedGameData);
-    savedGameData = getDataFromLocalStorage('savedGame');
+    saveDataToLocalStorage("savedGame", savedGameData);
+    savedGameData = getDataFromLocalStorage("savedGame");
   },
 
   continueGame() {
@@ -396,7 +368,8 @@ export const gameState = {
     this.matrixSet = savedGameData.matrixSet;
     this.matrix = savedGameData.matrix;
     this.matrixName = savedGameData.matrixName;
-    this.currentUserMatrix = getDataFromLocalStorage('savedGame').currentUserMatrix;
+    this.currentUserMatrix =
+    getDataFromLocalStorage("savedGame").currentUserMatrix;
     this.hintsArrayTop = savedGameData.hintsArrayTop;
     this.hintsArrayLeft = savedGameData.hintsArrayLeft;
   },

@@ -110,11 +110,13 @@
     }
 
     .game__timer,
-    .game__mode-btn {
+    .game__mode-btn,
+    .game__sound-toggler {
         top: -50px;
     }
 
-    .game__mode-btn {
+    .game__mode-btn,
+    .game__sound-toggler {
         background-size: 20px 20px;
     }
 

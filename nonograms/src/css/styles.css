@@ -3,10 +3,11 @@
     --black: #212121;
     --background: #f4f1e6;
     --main-color: #008c76;
-    --lvl-btn: #ffb347;
+    --manage-btn-hover: #ffb347;
     --options: #f9eac3;
-    --manage-btns: #ff5a5f;
-    --mode-btn: #9c27b0;
+    --manage-btns: #ff85a1;
+    --timer: #ffcab1;
+    --mode-btns: #fffafa;
     --disabled: #b0b0b0;
     --border-radius: 8px;
 }
@@ -16,10 +17,11 @@
     --main-color: #00c896;
     --white: #e0e0e0;
     --black: #121212;
-    --lvl-btn: #ffaa00;
+    --manage-btn-hover: #ffaa00;
     --options: #424769;
     --manage-btns: #ff3f80;
-    --mode-btn: #a95fff;
+    --mode-btns: #d3d3d3;
+    --timer: #f7a072;
     --disabled: #606060;
 }
 
@@ -106,6 +108,7 @@ h4 {
 .game__picture-section {
     flex-direction: column;
     gap: 5px;
+    cursor: pointer;
 }
 
 .game__levels-select,
@@ -133,15 +136,15 @@ h4 {
 
 @media (hover: hover) {
     .game__btn-manage:hover {
-        border-color: var(--lvl-btn);
-        background-color: var(--lvl-btn);
+        border-color: var(--manage-btn-hover);
+        background-color: var(--manage-btn-hover);
     }
 }
 
 @media (hover: none) {
     .game__btn-manage:active {
-        border-color: var(--lvl-btn);
-        background-color: var(--lvl-btn);
+        border-color: var(--manage-btn-hover);
+        background-color: var(--manage-btn-hover);
     }
 }
 
@@ -296,6 +299,7 @@ h4 {
     background-image: url('../images/moon.png');
     background-position: center;
     background-size: 36px 36px;
+    background-color: var(--mode-btns);
     cursor: pointer;
     transition: transform 0.3s ease-in-out;
 }
@@ -331,9 +335,13 @@ h4 {
     border: 2px solid var(--main-color);
     border-radius: var(--border-radius);
     font-size: 1.1rem;
-    background-color: var(--lvl-btn);
+    background-color: var(--timer);
 }
 
+.dark-mode .game__timer {
+    color: var(--black);
+    border-color: var(--timer);
+}
 /* win-modal */
 /* results */
 

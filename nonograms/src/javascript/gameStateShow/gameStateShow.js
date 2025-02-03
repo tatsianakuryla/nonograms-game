@@ -41,7 +41,7 @@ function setTimer() {
     seconds = 0;
   }
   timer.textContent =
-    String(minutes).padStart(2, "0") + " : " + String(seconds).padStart(2, 0);
+    String(minutes).padStart(2, "0") + " : " + String(seconds).padStart(2, "0");
 }
 
 export const gameStateShow = {
@@ -70,36 +70,26 @@ export const gameStateShow = {
         event.preventDefault();
         const iCell = +cell.getAttribute("data-i");
         const jCell = +cell.getAttribute("data-j");
-        for (let i = 0; i < gameState.matrix.length; i++) {
-          for (let j = 0; j < gameState.matrix[i].length; j++) {
-            if (iCell === i && jCell === j) {
-              cell.classList.toggle("black-cell");
-              gameState.currentUserMatrix[i][j] = cell.classList.contains(
-                "black-cell"
-              )
-                ? 1
-                : 0;
-                if (this.isSoundOn) {
-                  if (cell.classList.contains("black-cell")) {
-                    fillCellBlackSound.currentTime = 0;
-                    fillCellBlackSound
-                      .play()
-                      .catch((error) =>
-                        console.error("Error playing sound:", error)
-                      );
-                  } else {
-                    fillCellWhiteSound.currentTime = 0;
-                    fillCellWhiteSound
-                      .play()
-                      .catch((error) =>
-                        console.error("Error playing sound:", error)
-                      );
-                  }
-                }
-              cell.classList.remove("cross");
-            }
+        cell.classList.toggle("black-cell");
+        gameState.currentUserMatrix[iCell][jCell] = cell.classList.contains(
+          "black-cell"
+        )
+          ? 1
+          : 0;
+        if (this.isSoundOn) {
+          if (cell.classList.contains("black-cell")) {
+            fillCellBlackSound.currentTime = 0;
+            fillCellBlackSound
+              .play()
+              .catch((error) => console.error("Error playing sound:", error));
+          } else {
+            fillCellWhiteSound.currentTime = 0;
+            fillCellWhiteSound
+              .play()
+              .catch((error) => console.error("Error playing sound:", error));
           }
         }
+        cell.classList.remove("cross");
         if (gameState.isGameWon()) {
           gameState.gameWon();
           this.gameWon();
@@ -109,31 +99,25 @@ export const gameStateShow = {
         event.preventDefault();
         const iCell = +cell.getAttribute("data-i");
         const jCell = +cell.getAttribute("data-j");
-        for (let i = 0; i < gameState.matrix.length; i++) {
-          for (let j = 0; j < gameState.matrix[i].length; j++) {
-            if (iCell === i && jCell === j) {
-              cell.classList.remove("black-cell");
-              gameState.currentUserMatrix[i][j] = 0;
-              cell.classList.toggle("cross");
-              gameState.currentUserMatrix[i][j] = cell.classList.contains(
-                "cross"
-              )
-                ? "0"
-                : 0;
-                if (this.isSoundOn) {
-                  if (cell.classList.contains("cross")) {
-                    crossCellSound.currentTime = 0;
-                    crossCellSound
-                      .play()
-                      .catch((error) =>
-                        console.error("Error playing sound:", error)
-                      );
-                  } else {
-                    uncrossCellSound.currentTime = 0;
-                    uncrossCellSound.play().catch(error => console.error("Error playing sound:", error));
-                  }
-                }
-            }
+        cell.classList.remove("black-cell");
+        gameState.currentUserMatrix[iCell][jCell] = 0;
+        cell.classList.toggle("cross");
+        gameState.currentUserMatrix[iCell][jCell] = cell.classList.contains(
+          "cross"
+        )
+          ? "0"
+          : 0;
+        if (this.isSoundOn) {
+          if (cell.classList.contains("cross")) {
+            crossCellSound.currentTime = 0;
+            crossCellSound
+              .play()
+              .catch((error) => console.error("Error playing sound:", error));
+          } else {
+            uncrossCellSound.currentTime = 0;
+            uncrossCellSound
+              .play()
+              .catch((error) => console.error("Error playing sound:", error));
           }
         }
         if (gameState.isGameWon()) {
@@ -199,13 +183,13 @@ export const gameStateShow = {
     this.matrixSection.style.pointerEvents = "none";
     renderGameResults();
 
-   if (this.isSoundOn) {
-    wonGameSound.currentTime = 0;
-    wonGameSound
-      .play()
-      .catch((error) => console.error("Error playing sound:", error));
-   };
-   
+    if (this.isSoundOn) {
+      wonGameSound.currentTime = 0;
+      wonGameSound
+        .play()
+        .catch((error) => console.error("Error playing sound:", error));
+    }
+
     setTimeout(() => {
       addClass(winModal, "show");
       winModal.textContent = `You have solve the nonogram in ${gameState.resultSeconds}s`;

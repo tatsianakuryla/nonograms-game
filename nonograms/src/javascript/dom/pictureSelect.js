@@ -1,4 +1,4 @@
-import { LEVELS, gameState } from "../gameState/gameState.js";
+import { gameState, MATRIX_SETS } from "../gameState/gameState.js";
 import {
   createElementWithClassId,
   textToCapitalCase,
@@ -30,18 +30,17 @@ export function renderPictureSelect(level = "easy") {
 
   pictureSelect.innerHTML = "";
 
-  LEVELS.get(level)
-    .keys()
+Object.keys(MATRIX_SETS[level])
     .forEach((pictureName) => {
-      const pictureNameConsice = pictureName.toLowerCase();
+      const pictureNameLowerCase = pictureName.toLowerCase();
       const pictureOption = createElementWithClassId(
         "option",
         [
           "game__picture-option",
-          `game__picture-option_${pictureNameConsice}`,
+          `game__picture-option_${pictureNameLowerCase}`,
           "flex",
         ],
-        pictureNameConsice
+        pictureNameLowerCase
       );
 
       pictureOption.textContent = textToCapitalCase(

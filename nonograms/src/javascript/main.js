@@ -81,6 +81,8 @@ showAsideBtn.addEventListener('click', () => {
 });
 
 window.addEventListener("resize", () => {
-  asideSection.classList.remove('show');
-  showAsideBtn.classList.remove('show');
+  if (window.innerWidth < 680) {
+    asideSection.classList.remove('show');
+    showAsideBtn.classList.remove('show');
+  }
 });
