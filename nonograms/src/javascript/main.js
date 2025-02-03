@@ -1,5 +1,5 @@
 import { renderStartGameWindow } from "./dom/startGameWindow.js";
-import { gameState, savedGameData } from "./gameState/gameState.js";
+import { gameState } from "./gameState/gameState.js";
 import { gameStateShow } from "./gameStateShow/gameStateShow.js";
 import { addClass, removeClass} from "./helpers/helpers.js";
 import { getDataFromLocalStorage } from "./localStorage/localStorage.js";
@@ -36,11 +36,6 @@ levelSelect.addEventListener("change", (event) => {
   gameState.setLevel(event.target.value);
   gameStateShow.levelChange();
   gameStateShow.resetTimer();
-  gameStateShow.picture.addEventListener("change", (event) => {
-    gameState.setMatrix(event.target.value);
-    gameStateShow.pictureChange();
-    gameStateShow.resetTimer();
-  });
 });
 
 randomBtn.addEventListener("click", () => {

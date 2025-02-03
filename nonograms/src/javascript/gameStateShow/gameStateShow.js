@@ -159,7 +159,6 @@ export const gameStateShow = {
     renderMatrixSection();
     enableElement(solutionBtn);
     disableElement(resetBtn);
-    addEventListenerPictureSelect();
   },
 
   gameStart() {

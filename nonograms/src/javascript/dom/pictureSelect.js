@@ -1,4 +1,5 @@
 import { gameState, MATRIX_SETS } from "../gameState/gameState.js";
+import { gameStateShow } from "../gameStateShow/gameStateShow.js";
 import {
   createElementWithClassId,
   textToCapitalCase,
@@ -49,11 +50,12 @@ Object.keys(MATRIX_SETS[level])
 
       pictureSelect.append(pictureOption);
     });
+    addEventListenerPictureSelect();
 }
 
 export function addEventListenerPictureSelect() {
   document.getElementById("picture").addEventListener("change", (event) => {
     gameState.setMatrix(event.target.value);
-    renderMatrixSection();
+    gameStateShow.pictureChange();
   });
 }
