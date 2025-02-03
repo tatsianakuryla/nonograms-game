@@ -307,5 +307,6 @@ export const gameStateShow = {
     enableElement(this.picture);
     enableElement(levelSelect);
     enableElement(resetBtn);
+    enableElement(solutionBtn);
   },
 };
