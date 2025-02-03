@@ -1,6 +1,6 @@
 import { textToCapitalCase } from "../helpers/helpers.js";
 import { seconds, minutes } from "../gameStateShow/gameStateShow.js";
-import { getDataFromLocalStorage, removeDataFromLocalStorage, saveDataToLocalStorage } from "../localStorage/localStorage.js";
+import { getDataFromLocalStorage, saveDataToLocalStorage } from "../localStorage/localStorage.js";
 
 export const easyMatrixSet = new Map([
   [

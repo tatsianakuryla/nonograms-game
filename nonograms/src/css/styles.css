@@ -23,6 +23,8 @@
     --disabled: #606060;
 }
 
+/* general */
+
 html {
     box-sizing: border-box;
     font-size: clamp(16px, 2vw, 24px);
@@ -76,7 +78,6 @@ h4 {
     flex-grow: 1;
     gap: 30px;
     padding: 5px 60px;
-    width: 100%;
     max-width: 1400px;
     color: var(--main-color);
 }
@@ -88,10 +89,11 @@ h4 {
 
 .game__wrapper {
     position: relative;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     gap: 20px;
 }
+/* aside */
 
 .game__aside {
     flex-direction: column;
@@ -122,6 +124,7 @@ h4 {
     cursor: pointer;
 }
 
+/* manage-btns */
 .game__btn-manage {
     border: 3px;
     background-color: var(--manage-btns);
@@ -130,15 +133,15 @@ h4 {
 
 @media (hover: hover) {
     .game__btn-manage:hover {
-        background-color: var(--lvl-btn);
         border-color: var(--lvl-btn);
+        background-color: var(--lvl-btn);
     }
 }
 
 @media (hover: none) {
     .game__btn-manage:active {
-        background-color: var(--lvl-btn);
         border-color: var(--lvl-btn);
+        background-color: var(--lvl-btn);
     }
 }
 
@@ -185,16 +188,16 @@ h4 {
 .game__matrix-element,
 .game__hint-top,
 .game__hint-left {
-    height: 30px;
-    width: 30px;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
 }
 
 .game__matrix-element {
     position: relative;
-    cursor: pointer;
     background-color: var(--white);
+    cursor: pointer;
     transition: background-color 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
@@ -205,8 +208,8 @@ h4 {
 }
 
 .game__matrix-element-cross {
-    display: none;
     position: absolute;
+    display: none;
     flex-shrink: 0;
     border-radius: 1px;
     height: 1px;
@@ -272,36 +275,50 @@ h4 {
 
 /* mode btn*/
 /* timer */
+/* sound-toggler */
 
 .game__timer,
-.game__mode-btn {
+.game__mode-btn,
+.game__sound-toggler {
     position: absolute;
     top: -70px;
 }
 
-.game__mode-btn {
+.game__mode-btn,
+.game__sound-toggler {
     left: 0;
     padding: 0;
     border: none;
     border-radius: 100px;
     width: 40px;
-    height: 35px;
-    background-color: var(--mode-btn);
+    height: 40px;
     background-repeat: no-repeat;
     background-image: url('../images/moon.png');
     background-position: center;
-    background-size: 24px 24px;
+    background-size: 36px 36px;
     cursor: pointer;
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-}
-
-.game__mode-btn:active {
-    transform: scale(0.95);
-    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
 }
 
 .game__mode-btn-dark {
     background-image: url('../images/sun.png');
+}
+
+/* sound-toggler */
+.game__sound-toggler {
+    left: 45px;
+    background-size: 24px 24px;
+    background-image: url('../images/sound-on.png');
+}
+
+.game__mode-btn:active,
+.game__sound-toggler:active {
+    transform: scale(0.95);
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.sound-off {
+    background-image: url('../images/sound-off.png');
 }
 
 /* timer */
@@ -334,7 +351,7 @@ h4 {
     width: 300px;
     border-radius: var(--border-radius);
     text-align: center;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     color: var(--black);
     background-color: var(--white);
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);

@@ -16,7 +16,7 @@ export const levelSelect = document.getElementById("level");
 export const timer = document.getElementById("game__timer");
 const modeBtn = document.getElementById("game__mode-btn");
 export const winModal = document.getElementById('win-modal');
-const closeWinModalBtn = document.getElementById('win-modal__close-btn');
+const soundToggler = document.getElementById('game__sound-toggler');
 export const resultsModal = document.getElementById('results-modal');
 const closeResultsModalBtn = document.getElementById('results-modal__close-button');
 const showAsideBtn = document.getElementById('game__show-aside-button');
@@ -25,6 +25,11 @@ const asideSection = document.getElementById('game__aside');
 modeBtn.addEventListener('click', () => {
   document.documentElement.classList.toggle('dark-mode');
   modeBtn.classList.toggle('game__mode-btn-dark');
+});
+
+soundToggler.addEventListener('click', () => {
+  gameStateShow.isSoundOn = !gameStateShow.isSoundOn;
+  soundToggler.classList.toggle('sound-off');
 });
 
 levelSelect.addEventListener("change", (event) => {
@@ -64,10 +69,6 @@ continueBtn.addEventListener('click', () => {
 
 resultsBtn.addEventListener('click', () => {
   addClass(resultsModal, 'show');
-});
-
-closeWinModalBtn.addEventListener('click', () => {
-  removeClass(winModal, 'show');
 });
 
 closeResultsModalBtn.addEventListener('click', () => {

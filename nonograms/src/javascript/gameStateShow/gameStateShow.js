@@ -22,6 +22,13 @@ import {
   continueBtn,
   winModal,
 } from "../main.js";
+import {
+  wonGameSound,
+  fillCellBlackSound,
+  fillCellWhiteSound,
+  crossCellSound,
+  uncrossCellSound,
+} from "../soundEffects/soundEffects.js";
 
 export let seconds = 0;
 export let minutes = 0;
@@ -41,6 +48,7 @@ export const gameStateShow = {
   cells: [],
   matrixSection: [],
   picture: "",
+  isSoundOn: true,
 
   getMatrixCells() {
     this.cells = Array.from(
@@ -71,6 +79,23 @@ export const gameStateShow = {
               )
                 ? 1
                 : 0;
+                if (this.isSoundOn) {
+                  if (cell.classList.contains("black-cell")) {
+                    fillCellBlackSound.currentTime = 0;
+                    fillCellBlackSound
+                      .play()
+                      .catch((error) =>
+                        console.error("Error playing sound:", error)
+                      );
+                  } else {
+                    fillCellWhiteSound.currentTime = 0;
+                    fillCellWhiteSound
+                      .play()
+                      .catch((error) =>
+                        console.error("Error playing sound:", error)
+                      );
+                  }
+                }
               cell.classList.remove("cross");
             }
           }
@@ -95,6 +120,19 @@ export const gameStateShow = {
               )
                 ? "0"
                 : 0;
+                if (this.isSoundOn) {
+                  if (cell.classList.contains("cross")) {
+                    crossCellSound.currentTime = 0;
+                    crossCellSound
+                      .play()
+                      .catch((error) =>
+                        console.error("Error playing sound:", error)
+                      );
+                  } else {
+                    uncrossCellSound.currentTime = 0;
+                    uncrossCellSound.play().catch(error => console.error("Error playing sound:", error));
+                  }
+                }
             }
           }
         }
@@ -160,6 +198,14 @@ export const gameStateShow = {
     disableElement(saveBtn);
     this.matrixSection.style.pointerEvents = "none";
     renderGameResults();
+
+   if (this.isSoundOn) {
+    wonGameSound.currentTime = 0;
+    wonGameSound
+      .play()
+      .catch((error) => console.error("Error playing sound:", error));
+   };
+   
     setTimeout(() => {
       addClass(winModal, "show");
       winModal.textContent = `You have solve the nonogram in ${gameState.resultSeconds}s`;

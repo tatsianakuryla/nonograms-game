@@ -1,7 +1,7 @@
 import { createElementWithClassId } from "../helpers/helpers.js";
 
 import { gameState } from "../gameState/gameState.js";
-import { getModeBtn } from "./mode.js";
+import { getModeBtn } from "./modeBtn.js";
 import { getLevelChoiceSection } from "./levelSelect.js";
 import { getMatrixSection, renderMatrixSection } from "./matrix.js";
 import {
@@ -16,6 +16,7 @@ import {
   renderGameResults,
 } from "./modals/resultsModal.js";
 import { getWinModal } from "./modals/winModal.js";
+import { getSoundToggler } from './soundToggler.js';
 
 const MANAGE_BUTTONS_TASKS = [
   "random",
@@ -75,7 +76,7 @@ function getGameContainer() {
   );
 
   const showAsideBtn = createElementWithClassId('button', ['game__show-aside-button'], 'game__show-aside-button');
-  wrapper.append(getGameAside(), getMatrixSection(), getModeBtn(), getTimer(), showAsideBtn);
+  wrapper.append(getGameAside(), getMatrixSection(), getModeBtn(), getTimer(), showAsideBtn, getSoundToggler());
   gameContainer.append(heading, wrapper);
   return gameContainer;
 }
