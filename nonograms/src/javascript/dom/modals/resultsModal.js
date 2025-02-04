@@ -1,4 +1,4 @@
-import { results } from "../../gameState/gameState.js";
+import { sortedResults } from "../../gameState/gameState.js";
 import {
   createElementWithClassId,
   textToCapitalCase,
@@ -13,7 +13,7 @@ export function getGameResultsModal() {
   const resultsHeader = createElementWithClassId("h4", [
     "results-modal__header",
   ]);
-  resultsHeader.textContent = "Best results";
+  resultsHeader.textContent = "Last results";
 
   const resultsList = createElementWithClassId(
     "ol",
@@ -37,10 +37,10 @@ export function getGameResultsModal() {
 export function renderGameResults() {
   const gameRecordsList = document.getElementById("results-modal__list");
   gameRecordsList.innerHTML = "";
-  if (!results.length) {
+  if (!sortedResults.length) {
     gameRecordsList.textContent = "No results available.";
   } else {
-    results.forEach((record) => {
+    sortedResults.forEach((record) => {
       gameRecordsList.append(getResultItem(record));
     });
   }

@@ -33,7 +33,7 @@ const MANAGE_BUTTON_TEXTS = {
   solution: "Solution",
   reset: "Reset game",
   save: "Save game",
-  results: "Best results",
+  results: "Results",
 };
 
 export function renderStartGameWindow() {
