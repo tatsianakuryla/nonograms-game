@@ -8,8 +8,7 @@ import {
 export let results = getDataFromLocalStorage("results") ?? [];
 export let sortedResults = [...results].sort(
   (a, b) => a.totalResults - b.totalResults);
-export let savedGameData;
-savedGameData = getDataFromLocalStorage("savedGame") ?? savedGameData;
+export let savedGameData = getDataFromLocalStorage("savedGame") ?? null;
 
 export const MATRIX_SETS = {
   easy: {

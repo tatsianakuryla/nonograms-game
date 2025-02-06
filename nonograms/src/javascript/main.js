@@ -2,7 +2,7 @@ import { renderStartGameWindow } from "./dom/startGameWindow.js";
 import { gameState } from "./gameState/gameState.js";
 import { gameStateShow } from "./gameStateShow/gameStateShow.js";
 import { addClass, removeClass} from "./helpers/helpers.js";
-import { clearLocalStorage, getDataFromLocalStorage } from "./localStorage/localStorage.js";
+import { getDataFromLocalStorage } from "./localStorage/localStorage.js";
 getDataFromLocalStorage
 renderStartGameWindow();
 
@@ -81,5 +81,3 @@ window.addEventListener("resize", () => {
     showAsideBtn.classList.remove('show');
   }
 });
-
-clearLocalStorage();
