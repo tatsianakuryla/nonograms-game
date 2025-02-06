@@ -8,7 +8,8 @@ import {
 export let results = getDataFromLocalStorage("results") ?? [];
 export let sortedResults = [...results].sort(
   (a, b) => a.totalResults - b.totalResults);
-export let savedGameData = getDataFromLocalStorage("savedGame") ?? null;
+export let savedGameData;
+savedGameData = getDataFromLocalStorage("savedGame") ?? savedGameData;
 
 export const MATRIX_SETS = {
   easy: {
@@ -368,8 +369,7 @@ export const gameState = {
     this.matrixSet = savedGameData.matrixSet;
     this.matrix = savedGameData.matrix;
     this.matrixName = savedGameData.matrixName;
-    this.currentUserMatrix =
-      getDataFromLocalStorage("savedGame").currentUserMatrix;
+    this.currentUserMatrix = savedGameData.currentUserMatrix;
     this.hintsArrayTop = savedGameData.hintsArrayTop;
     this.hintsArrayLeft = savedGameData.hintsArrayLeft;
   },
