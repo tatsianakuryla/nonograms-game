@@ -6,6 +6,6 @@ export function getWinModal() {
     ["win-modal", "flex"],
     "win-modal"
   );
-  winSection.textContent = `You have solve the nonogram in 00s`;
+  winSection.textContent = `You solved the nonogram in 00s`;
   return winSection;
 }

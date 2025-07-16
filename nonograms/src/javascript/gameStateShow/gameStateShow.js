@@ -191,7 +191,7 @@ export const gameStateShow = {
 
     setTimeout(() => {
       addClass(winModal, "show");
-      winModal.textContent = `You have solve the nonogram in ${gameState.resultSeconds}s`;
+      winModal.textContent = `You solved the nonogram in ${gameState.resultSeconds}s`;
     }, 400);
     setTimeout(() => {
       removeClass(winModal, "show");
